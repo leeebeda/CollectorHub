@@ -1,0 +1,147 @@
+﻿@model CollectorHub.ViewModels.ItemDetailsViewModel
+
+@{
+    ViewData["Title"] = "Детали предмета";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>@Model.Item.name</h1>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.Item.item_id" class="btn btn-primary">Редактировать</a>
+        <a asp-action="Index" asp-route-collectionId="@Model.Item.collection_id" class="btn btn-secondary">Назад к списку</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Основная информация</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4">Название</dt>
+                    <dd class="col-sm-8">@Model.Item.name</dd>
+
+                    <dt class="col-sm-4">Коллекция</dt>
+                    <dd class="col-sm-8">
+                        <a asp-controller="Collections" asp-action="Details" asp-route-id="@Model.Item.collection_id">
+                            @Model.Item.collection.name
+                        </a>
+                    </dd>
+
+                    <dt class="col-sm-4">Статус</dt>
+                    <dd class="col-sm-8">
+                        <span class="badge @(Model.Item.status.code == "available" ? "bg-success" :
+                                           Model.Item.status.code == "delivery" ? "bg-info" :
+                                           Model.Item.status.code == "pre-order" ? "bg-warning" :
+                                           "bg-secondary")">
+                            @Model.Item.status.name
+                        </span>
+                    </dd>
+
+                    @if (Model.Item.status.code == "wishlist" && Model.WishlistRank.HasValue)
+                    {
+                        <dt class="col-sm-4">Ранг в списке желаний</dt>
+                        <dd class="col-sm-8">@Model.WishlistRank</dd>
+                    }
+
+                    <dt class="col-sm-4">Дата добавления</dt>
+                    <dd class="col-sm-8">@String.Format("{0:dd.MM.yyyy}", Model.Item.created_at)</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Поля предмета</h5>
+            </div>
+            <div class="card-body">
+                @if (!Model.CollectionFields.Any())
+                {
+                    <p class="text-center">У этой коллекции нет полей.</p>
+                }
+                else
+                {
+                    <dl class="row">
+                        @foreach (var field in Model.CollectionFields)
+                        {
+                            <dt class="col-sm-4">@field.name</dt>
+                            <dd class="col-sm-8">
+                                @switch (field.field_type.name)
+                                {
+                                    case "Текст":
+                                        @(Model.TextValues.TryGetValue(field.field_id, out var textValue) ? textValue : "-")
+                                        break;
+
+                                    case "Число":
+                                        @(Model.NumberValues.TryGetValue(field.field_id, out var numberValue) ? numberValue?.ToString() : "-")
+                                        break;
+
+                                    case "Дата":
+                                        @(Model.DateValues.TryGetValue(field.field_id, out var dateValue) ? dateValue?.ToString("dd.MM.yyyy") : "-")
+                                        break;
+
+                                    case "Да-нет":
+                                        @if (Model.BoolValues.TryGetValue(field.field_id, out var boolValue))
+                                        {
+                                            @(boolValue == true ? "Да" : "Нет")
+                                        }
+                                        else
+                                        {
+                                            @("-")
+                                        }
+                                        break;
+
+                                    case "Варианты":
+                                        @if (Model.OptionValues.TryGetValue(field.field_id, out var optionValue))
+                                        {
+                                            @optionValue.option_text
+                                        }
+                                        else
+                                        {
+                                            @("-")
+                                        }
+                                        break;
+
+                                    case "Фото":
+                                        @if (Model.ImageValues.TryGetValue(field.field_id, out var imageValues) && imageValues.Any())
+                                        {
+                                            <div class="image-gallery">
+                                                @foreach (var image in imageValues)
+                                                {
+                                                    <img src="@image.image_url" alt="@field.name" class="img-thumbnail" style="max-width: 100px; max-height: 100px;" />
+                                                }
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            @("-")
+                                        }
+                                        <div class="mt-2">
+                                            <a asp-controller="Images" asp-action="AddItemImage" asp-route-itemId="@Model.Item.item_id" asp-route-collectionId="@Model.CollectionId" class="btn btn-sm btn-outline-primary">
+                                                Управление изображениями
+                                            </a>
+                                        </div>
+                                        break;
+
+                                    default:
+                                        @("-")
+                                        break;
+                                }
+                            </dd>
+                        }
+                    </dl>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4">
+    <a asp-action="Edit" asp-route-id="@Model.Item.item_id" class="btn btn-primary">Редактировать</a>
+    <a asp-action="Delete" asp-route-id="@Model.Item.item_id" class="btn btn-danger">Удалить</a>
+    <a asp-controller="Collections" asp-action="Details" asp-route-id="@Model.CollectionId" class="btn btn-secondary">Назад к коллекции</a>
+</div>

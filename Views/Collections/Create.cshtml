@@ -1,0 +1,76 @@
+﻿@model CollectorHub.ViewModels.CreateCollectionViewModel
+
+@{
+    ViewData["Title"] = "Создание коллекции";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Name" class="control-label">Название</label>
+                <input asp-for="Name" class="form-control" required />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Description" class="control-label">Описание</label>
+                <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="VisibilityId" class="control-label">Видимость</label>
+                <select asp-for="VisibilityId" class="form-control" asp-items="ViewBag.visibility_id">
+                    <option value="">-- Выберите видимость --</option>
+                </select>
+                <span asp-validation-for="VisibilityId" class="text-danger"></span>
+                <small class="form-text text-muted">Определяет, кто может видеть вашу коллекцию.</small>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="TemplateId" class="control-label">Шаблон</label>
+                <select asp-for="TemplateId" class="form-control" asp-items="ViewBag.template_id">
+                    <option value="">-- Выберите шаблон (необязательно) --</option>
+                </select>
+                <small class="form-text text-muted">Шаблон определяет начальный набор полей для вашей коллекции.</small>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="ParentId" class="control-label">Родительская коллекция</label>
+                <select asp-for="ParentId" class="form-control" asp-items="ViewBag.parent_id">
+                    <option value="">-- Нет родительской коллекции --</option>
+                </select>
+                <small class="form-text text-muted">Вы можете создать иерархию коллекций, выбрав родительскую коллекцию.</small>
+            </div>
+
+            <div class="form-group mb-3">
+                <input type="submit" value="Создать" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Назад к списку</a>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                Подсказка
+            </div>
+            <div class="card-body">
+                <p>Создайте коллекцию, чтобы начать добавлять в неё предметы.</p>
+                <p>Вы можете выбрать шаблон, чтобы автоматически создать набор полей для вашей коллекции, или настроить поля вручную позже.</p>
+                <p>Вы также можете создать иерархию коллекций, выбрав родительскую коллекцию.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,46 @@
+﻿@model CollectorHub.Models.Item
+
+@{
+    ViewData["Title"] = "Удаление предмета";
+}
+
+<h1>Удаление предмета</h1>
+
+<div class="alert alert-danger">
+    <h3>Вы уверены, что хотите удалить этот предмет?</h3>
+    <p>Это действие нельзя будет отменить. Все значения полей этого предмета будут удалены.</p>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <h5 class="mb-0">Информация о предмете</h5>
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">Название</dt>
+            <dd class="col-sm-9">@Model.name</dd>
+
+            <dt class="col-sm-3">Коллекция</dt>
+            <dd class="col-sm-9">@Model.collection.name</dd>
+
+            <dt class="col-sm-3">Статус</dt>
+            <dd class="col-sm-9">
+                <span class="badge @(Model.status.code == "available" ? "bg-success" :
+                                   Model.status.code == "delivery" ? "bg-info" :
+                                   Model.status.code == "pre-order" ? "bg-warning" :
+                                   "bg-secondary")">
+                    @Model.status.name
+                </span>
+            </dd>
+
+            <dt class="col-sm-3">Дата добавления</dt>
+            <dd class="col-sm-9">@String.Format("{0:dd.MM.yyyy}", Model.created_at)</dd>
+        </dl>
+    </div>
+</div>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="item_id" />
+    <input type="submit" value="Удалить" class="btn btn-danger" />
+    <a asp-action="Index" asp-route-collectionId="@Model.collection_id" class="btn btn-secondary">Отмена</a>
+</form>

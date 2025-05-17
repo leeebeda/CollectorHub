@@ -1,0 +1,145 @@
+﻿@model CollectorHub.ViewModels.EditItemViewModel
+
+@{
+    ViewData["Title"] = "Редактирование предмета";
+}
+
+<h1>Редактирование предмета "@Model.Name"</h1>
+<h4>Коллекция: @Model.CollectionName</h4>
+
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form asp-action="Edit" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ItemId" />
+            <input type="hidden" asp-for="CollectionId" />
+            <input type="hidden" asp-for="CollectionName" />
+            
+            <div class="form-group mb-3">
+                <label asp-for="Name" class="control-label">Название предмета</label>
+                <input asp-for="Name" class="form-control" required />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group mb-3">
+                <label asp-for="StatusId" class="control-label">Статус</label>
+                <select asp-for="StatusId" class="form-control" asp-items="ViewBag.status_id" required>
+                    <option value="">-- Выберите статус --</option>
+                </select>
+                <span asp-validation-for="StatusId" class="text-danger"></span>
+                <small class="form-text text-muted">
+                    Статус определяет, доступен ли предмет, находится ли в доставке, предзаказе или списке желаний.
+                </small>
+            </div>
+            
+            <div class="form-group mb-3 wishlist-rank" style="display: none;">
+                <label asp-for="WishlistRank" class="control-label">Ранг в списке желаний</label>
+                <input asp-for="WishlistRank" class="form-control" type="number" min="1" max="10" />
+                <span asp-validation-for="WishlistRank" class="text-danger"></span>
+                <small class="form-text text-muted">
+                    Ранг определяет приоритет предмета в списке желаний (1 - наивысший приоритет).
+                </small>
+            </div>
+            
+            @if (Model.CollectionFields.Any())
+            {
+                <h4 class="mt-4 mb-3">Поля предмета</h4>
+                
+                @foreach (var field in Model.CollectionFields)
+                {
+                    <div class="form-group mb-3">
+                        <label class="control-label">
+                            @field.name
+                            @if (field.is_required)
+                            {
+                                <span class="text-danger">*</span>
+                            }
+                        </label>
+                        
+                        @{
+                            var fieldValue = Model.FieldValues.ContainsKey(field.field_id) ? Model.FieldValues[field.field_id] : null;
+                        }
+                        
+                        @switch (field.field_type.name)
+                        {
+                            case "Текст":
+                                <textarea name="FieldValues[@field.field_id]" class="form-control" rows="3" @(field.is_required ? "required" : "")>@fieldValue</textarea>
+                                break;
+                                
+                            case "Число":
+                                <input type="number" name="FieldValues[@field.field_id]" class="form-control" step="1" value="@fieldValue" @(field.is_required ? "required" : "") />
+                                break;
+                                
+                            case "Дата":
+                                <input type="date" name="FieldValues[@field.field_id]" class="form-control" value="@fieldValue" @(field.is_required ? "required" : "") />
+                                break;
+                                
+                            case "Да-нет":
+                                <div class="form-check">
+                                    <input type="checkbox" name="FieldValues[@field.field_id]" class="form-check-input" value="true" id="field_@field.field_id" @(fieldValue == "True" ? "checked" : "") />
+                                    <label class="form-check-label" for="field_@field.field_id">Да</label>
+                                </div>
+                                break;
+                                
+                            case "Варианты":
+                                <select name="FieldValues[@field.field_id]" class="form-control" @(field.is_required ? "required" : "")>
+                                    <option value="">-- Выберите опцию --</option>
+                                    @if (Model.FieldOptions.TryGetValue(field.field_id, out var options))
+                                    {
+                                        foreach (var option in options)
+                                        {
+                                            <option value="@option.option_id" selected="@(fieldValue == option.option_id.ToString())">@option.option_text</option>
+                                        }
+                                    }
+                                </select>
+                                break;
+                                
+                            case "Фото":
+                                <div class="alert alert-info">
+                                    Управление изображениями доступно на странице деталей предмета.
+                                </div>
+                                break;
+                                
+                            default:
+                                <input type="text" name="FieldValues[@field.field_id]" class="form-control" value="@fieldValue" @(field.is_required ? "required" : "") />
+                                break;
+                        }
+                        
+                        @if (field.is_required)
+                        {
+                            <div class="text-danger field-validation-error" data-valmsg-for="FieldValues[@field.field_id]" data-valmsg-replace="true"></div>
+                        }
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="alert alert-warning mt-4">
+                    У этой коллекции нет полей. Вы можете добавить поля в настройках коллекции.
+                </div>
+            }
+            
+            <div class="form-group mt-4">
+                <input type="submit" value="Сохранить" class="btn btn-primary" />
+                <a asp-action="Details" asp-route-id="@Model.ItemId" class="btn btn-secondary">Назад к деталям</a>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                Подсказка
+            </div>
+            <div class="card-body">
+                <p>Измените информацию о предмете и значения полей.</p>
+                <p>Поля, отмеченные звездочкой (*), обязательны для заполнения.</p>
+                <p>Если вы выберете статус "Список желаний", вы сможете указать ранг предмета в списке желаний.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

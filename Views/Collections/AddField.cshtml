@@ -1,0 +1,52 @@
+﻿@model CollectorHub.ViewModels.CollectionFieldViewModel
+
+@{
+    ViewData["Title"] = "Добавление поля";
+}
+
+<h1>Добавление поля</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Новое поле</h5>
+            </div>
+            <div class="card-body">
+                <form asp-action="AddField" method="post">
+                    <input type="hidden" asp-for="CollectionId" />
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label asp-for="Name" class="form-label">Название поля</label>
+                            <input asp-for="Name" class="form-control" required />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="FieldTypeId" class="form-label">Тип поля</label>
+                            <select asp-for="FieldTypeId" class="form-control" asp-items="ViewBag.field_type_id" required>
+                                <option value="">-- Выберите тип поля --</option>
+                            </select>
+                            <span asp-validation-for="FieldTypeId" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-check mb-3">
+                        <input asp-for="IsRequired" class="form-check-input" type="checkbox" />
+                        <label asp-for="IsRequired" class="form-check-label">Обязательное поле</label>
+                    </div>
+
+                    <div class="mb-3">
+                        <p>Если вы выбрали тип поля "option", добавьте варианты выбора после сохранения поля.</p>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-3">
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                        <a asp-action="Details" asp-route-id="@Model.CollectionId" class="btn btn-secondary">Отмена</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
