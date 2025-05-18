@@ -12,6 +12,7 @@ namespace CollectorHub.Controllers
     public class CollectionsController : Controller
     {
         private readonly DBContext _context;
+        private readonly IWebHostEnvironment _environment;
 
         public CollectionsController(DBContext context)
         {
@@ -191,7 +192,8 @@ namespace CollectorHub.Controllers
 
                     if (collection.template_id.HasValue)
                     {
-                        await CopyTemplateFieldsToCollection(collection.template_id.Value, collection.collection_id);
+                        await CopyTemplateFieldsToCollection(collection.template_id.Value, 
+                            collection.collection_id);
                     }
 
                     return RedirectToAction(nameof(Details), new { id = collection.collection_id });
@@ -420,21 +422,93 @@ namespace CollectorHub.Controllers
                 return View(collection);
             }
 
-            // Удаляем связанные поля коллекции
-            var collectionFields = await _context.CollectionFields
-                .Where(f => f.collection_id == id)
-                .ToListAsync();
-
-            _context.CollectionFields.RemoveRange(collectionFields);
-
-            // Удаляем связанные предметы
+            // 1. Находим все предметы, связанные с коллекцией
             var items = await _context.Items
                 .Where(i => i.collection_id == id)
                 .ToListAsync();
 
+            // 2. Находим все item_id для предметов
+            var itemIds = items.Select(i => i.item_id).ToList();
+
+            // 3. Удаляем все значения полей для этих предметов
+            var textValues = await _context.ItemValueTexts
+                .Where(v => itemIds.Contains(v.item_id))
+                .ToListAsync();
+            _context.ItemValueTexts.RemoveRange(textValues);
+
+            var numberValues = await _context.ItemValueNumbers
+                .Where(v => itemIds.Contains(v.item_id))
+                .ToListAsync();
+            _context.ItemValueNumbers.RemoveRange(numberValues);
+
+            var dateValues = await _context.ItemValueDates
+                .Where(v => itemIds.Contains(v.item_id))
+                .ToListAsync();
+            _context.ItemValueDates.RemoveRange(dateValues);
+
+            var boolValues = await _context.ItemValueBools
+                .Where(v => itemIds.Contains(v.item_id))
+                .ToListAsync();
+            _context.ItemValueBools.RemoveRange(boolValues);
+
+            var optionValues = await _context.ItemValueOptions
+                .Where(v => itemIds.Contains(v.item_id))
+                .ToListAsync();
+            _context.ItemValueOptions.RemoveRange(optionValues);
+
+            var imageValues = await _context.ItemValueImages
+                .Where(v => itemIds.Contains(v.item_id))
+                .ToListAsync();
+            _context.ItemValueImages.RemoveRange(imageValues);
+
+            // 4. Удаляем записи из WishlistItems, связанные с этими предметами
+            var wishlistItems = await _context.WishlistItems
+                .Where(w => itemIds.Contains(w.item_id))
+                .ToListAsync();
+            _context.WishlistItems.RemoveRange(wishlistItems);
+
+            // 5. Удаляем сами предметы
             _context.Items.RemoveRange(items);
 
-            // Удаляем саму коллекцию
+            // 6. Удаляем связанные поля коллекции и их опции
+            var collectionFields = await _context.CollectionFields
+                .Where(f => f.collection_id == id)
+                .ToListAsync();
+
+            var fieldIds = collectionFields.Select(f => f.field_id).ToList();
+            var fieldOptions = await _context.FieldOptions
+                .Where(fo => fieldIds.Contains(fo.field_id))
+                .ToListAsync();
+
+            _context.FieldOptions.RemoveRange(fieldOptions);
+            _context.CollectionFields.RemoveRange(collectionFields);
+
+            // 7. Удаляем изображения коллекции и связанные файлы !! Новая секция
+            var collectionImages = await _context.CollectionImages
+                .Where(ci => ci.collection_id == id)
+                .ToListAsync();
+
+            foreach (var image in collectionImages)
+            {
+                try
+                {
+                    // Удаляем файл
+                    var filePath = Path.Combine(_environment.WebRootPath, image.image_url.TrimStart('/'));
+                    if (System.IO.File.Exists(filePath))
+                    {
+                        System.IO.File.Delete(filePath);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Логируем ошибку, но продолжаем удаление
+                    // Можно добавить логирование, например, через ILogger
+                    Console.WriteLine($"Ошибка при удалении файла {image.image_url}: {ex.Message}");
+                }
+            }
+            _context.CollectionImages.RemoveRange(collectionImages); // !! Удаляем записи из базы
+
+            // 8. Удаляем саму коллекцию
             _context.Collections.Remove(collection);
 
             await _context.SaveChangesAsync();
@@ -473,7 +547,6 @@ namespace CollectorHub.Controllers
             return View(model);
         }
 
-        // POST: Collections/AddField
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddField(CollectionFieldViewModel model)
@@ -487,6 +560,13 @@ namespace CollectorHub.Controllers
             if (collection == null)
             {
                 return NotFound();
+            }
+
+            // Проверка, является ли тип поля "Варианты"
+            var fieldType = await _context.FieldTypes.FirstOrDefaultAsync(ft => ft.field_type_id == model.FieldTypeId);
+            if (fieldType?.name == "Варианты" && (model.Options == null || !model.Options.Any(x => !string.IsNullOrEmpty(x))))
+            {
+                ModelState.AddModelError("Options", "Необходимо добавить хотя бы один вариант.");
             }
 
             if (ModelState.IsValid)
@@ -503,8 +583,7 @@ namespace CollectorHub.Controllers
                 await _context.SaveChangesAsync();
 
                 // Если тип поля - "Варианты", создаем опции
-                var fieldType = await _context.FieldTypes.FirstOrDefaultAsync(ft => ft.field_type_id == model.FieldTypeId);
-                if (fieldType != null && fieldType.name == "Варианты" && model.Options != null)
+                if (fieldType?.name == "Варианты" && model.Options != null)
                 {
                     foreach (var option in model.Options.Where(o => !string.IsNullOrEmpty(o)))
                     {
@@ -513,10 +592,8 @@ namespace CollectorHub.Controllers
                             field_id = field.field_id,
                             option_text = option
                         };
-
                         _context.Add(fieldOption);
                     }
-
                     await _context.SaveChangesAsync();
                 }
 
@@ -586,6 +663,7 @@ namespace CollectorHub.Controllers
             return View(model);
         }
 
+        // POST: Collections/EditField
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditField(CollectionFieldViewModel model)
@@ -617,7 +695,7 @@ namespace CollectorHub.Controllers
                 field.name = model.Name;
                 field.is_required = model.IsRequired;
 
-                // Если тип поля изменился, удаляем все значения этого поля в предметах
+                // Если тип поля изменился, удаляем все значения этого поля в предметах и опции, если применимо
                 if (field.field_type_id != model.FieldTypeId)
                 {
                     // Удаляем значения в зависимости от текущего типа поля
@@ -679,23 +757,24 @@ namespace CollectorHub.Controllers
                 _context.Update(field);
                 await _context.SaveChangesAsync();
 
-                // Обработка вариантов, если тип поля - "Варианты"
-                if (field.field_type.name == "Варианты" && model.Options != null)
+                // Обработка вариантов только если тип поля - "Варианты"
+                var newFieldType = await _context.FieldTypes.FirstOrDefaultAsync(ft => ft.field_type_id == model.FieldTypeId);
+                if (newFieldType != null && newFieldType.name == "Варианты" && model.Options != null)
                 {
                     // Получаем существующие опции
                     var existingOptions = await _context.FieldOptions
                         .Where(o => o.field_id == field.field_id)
                         .ToDictionaryAsync(o => o.option_id, o => o.option_text);
 
-                    // Определяем, какие опции отмечены для удаления
-                    var optionsToDelete = model.DeleteOptions?.Where(d => d != null).Select(d => d).ToList() ?? new List<string>();
+                    // Обработка удаляемых опций
+                    var optionsToDelete = model.DeleteOptions?.Where(d => !string.IsNullOrEmpty(d)).ToList() ?? new List<string>();
                     var optionsToKeep = new List<int>();
 
                     // Обновляем или удаляем существующие опции
                     for (int i = 0; i < model.OptionIds.Count && i < model.Options.Count; i++)
                     {
                         int optionId = model.OptionIds[i];
-                        string optionText = model.Options[i];
+                        string optionText = model.Options[i] ?? string.Empty;
 
                         if (!string.IsNullOrEmpty(optionText))
                         {
@@ -802,7 +881,7 @@ namespace CollectorHub.Controllers
                 return NotFound();
             }
 
-            // Получаем поле
+            // Находим поле для удаления
             var field = await _context.CollectionFields
                 .Include(f => f.field_type)
                 .FirstOrDefaultAsync(f => f.field_id == fieldId && f.collection_id == collectionId);
@@ -812,59 +891,57 @@ namespace CollectorHub.Controllers
                 return NotFound();
             }
 
-            // Удаляем значения в зависимости от типа поля
-            switch (field.field_type.name)
+            // Удаляем связанные значения в зависимости от типа поля
+            if (field.field_type.name == "Текст")
             {
-                case "Текст":
-                    var textValues = await _context.ItemValueTexts
-                        .Where(v => v.field_id == field.field_id)
-                        .ToListAsync();
-                    _context.ItemValueTexts.RemoveRange(textValues);
-                    break;
+                var textValues = await _context.ItemValueTexts
+                    .Where(ivt => ivt.field_id == fieldId)
+                    .ToListAsync();
+                _context.ItemValueTexts.RemoveRange(textValues);
+            }
+            else if (field.field_type.name == "Число")
+            {
+                var numberValues = await _context.ItemValueNumbers
+                    .Where(ivn => ivn.field_id == fieldId)
+                    .ToListAsync();
+                _context.ItemValueNumbers.RemoveRange(numberValues);
+            }
+            else if (field.field_type.name == "Дата")
+            {
+                var dateValues = await _context.ItemValueDates
+                    .Where(ivd => ivd.field_id == fieldId)
+                    .ToListAsync();
+                _context.ItemValueDates.RemoveRange(dateValues);
+            }
+            else if (field.field_type.name == "Да-нет")
+            {
+                var boolValues = await _context.ItemValueBools
+                    .Where(ivb => ivb.field_id == fieldId)
+                    .ToListAsync();
+                _context.ItemValueBools.RemoveRange(boolValues);
+            }
+            else if (field.field_type.name == "Варианты")
+            {
+                var optionValues = await _context.ItemValueOptions
+                    .Where(ivo => ivo.field_id == fieldId)
+                    .ToListAsync();
+                _context.ItemValueOptions.RemoveRange(optionValues);
 
-                case "Число":
-                    var numberValues = await _context.ItemValueNumbers
-                        .Where(v => v.field_id == field.field_id)
-                        .ToListAsync();
-                    _context.ItemValueNumbers.RemoveRange(numberValues);
-                    break;
-
-                case "Дата":
-                    var dateValues = await _context.ItemValueDates
-                        .Where(v => v.field_id == field.field_id)
-                        .ToListAsync();
-                    _context.ItemValueDates.RemoveRange(dateValues);
-                    break;
-
-                case "Да-нет":
-                    var boolValues = await _context.ItemValueBools
-                        .Where(v => v.field_id == field.field_id)
-                        .ToListAsync();
-                    _context.ItemValueBools.RemoveRange(boolValues);
-                    break;
-
-                case "Варианты":
-                    var optionValues = await _context.ItemValueOptions
-                        .Where(v => v.field_id == field.field_id)
-                        .ToListAsync();
-                    _context.ItemValueOptions.RemoveRange(optionValues);
-
-                    // Удаляем опции поля
-                    var options = await _context.FieldOptions
-                        .Where(o => o.field_id == field.field_id)
-                        .ToListAsync();
-                    _context.FieldOptions.RemoveRange(options);
-                    break;
-
-                case "Фото":
-                    var imageValues = await _context.ItemValueImages
-                        .Where(v => v.field_id == field.field_id)
-                        .ToListAsync();
-                    _context.ItemValueImages.RemoveRange(imageValues);
-                    break;
+                // Удаляем опции поля
+                var fieldOptions = await _context.FieldOptions
+                    .Where(fo => fo.field_id == fieldId)
+                    .ToListAsync();
+                _context.FieldOptions.RemoveRange(fieldOptions);
+            }
+            else if (field.field_type.name == "Фото")
+            {
+                var imageValues = await _context.ItemValueImages
+                    .Where(ivi => ivi.field_id == fieldId)
+                    .ToListAsync();
+                _context.ItemValueImages.RemoveRange(imageValues);
             }
 
-            // Удаляем поле
+            // Удаляем само поле
             _context.CollectionFields.Remove(field);
             await _context.SaveChangesAsync();
 

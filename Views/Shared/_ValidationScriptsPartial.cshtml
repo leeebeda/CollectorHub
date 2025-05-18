@@ -1,2 +1,31 @@
 ﻿<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Переопределяем сообщения валидации на русском языке
+        $.extend($.validator.messages, {
+            required: "Заполните это поле",
+            maxlength: $.validator.format("Максимальная длина {0} символов")
+        });
+
+        // Настраиваем поведение валидации
+        $.validator.setDefaults({
+            errorElement: 'span',
+            errorClass: 'text-danger',
+            highlight: function (element) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element) {
+                $(element).removeClass('is-invalid');
+            },
+            errorPlacement: function (error, element) {
+                var validationSpan = element.next('span.text-danger');
+                if (validationSpan.length) {
+                    error.appendTo(validationSpan);
+                } else {
+                    error.insertAfter(element);
+                }
+            }
+        });
+    });
+</script>

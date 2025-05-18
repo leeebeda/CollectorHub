@@ -19,14 +19,14 @@
 
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label asp-for="Name" class="form-label">Название поля</label>
-                            <input asp-for="Name" class="form-control" required />
+                            <label asp-for="Name" class="form-label">Название поля <span style="color: red;">*</span></label>
+                            <input asp-for="Name" class="form-control" />
                             <span asp-validation-for="Name" class="text-danger"></span>
                         </div>
 
                         <div class="col-md-6">
-                            <label asp-for="FieldTypeId" class="form-label">Тип поля</label>
-                            <select asp-for="FieldTypeId" class="form-control" asp-items="ViewBag.field_type_id" id="fieldTypeSelect" required>
+                            <label asp-for="FieldTypeId" class="form-label">Тип поля <span style="color: red;">*</span></label>
+                            <select asp-for="FieldTypeId" class="form-control" asp-items="ViewBag.field_type_id" id="fieldTypeSelect">
                                 <option value="">-- Выберите тип поля --</option>
                             </select>
                             <span asp-validation-for="FieldTypeId" class="text-danger"></span>
@@ -60,38 +60,48 @@
     </div>
 </div>
 
-<script>
-    // Получаем ID типа "Варианты" из серверной логики
-    const optionTypeId = @((await Model.GetFieldTypeIdAsync(_context, "Варианты")));
-
-    const fieldTypeSelect = document.getElementById('fieldTypeSelect');
-    const optionsSection = document.getElementById('optionsSection');
-    const optionsContainer = document.getElementById('optionsContainer');
-    const addOptionBtn = document.getElementById('addOptionBtn');
-
-    // Показываем/скрываем секцию вариантов при выборе типа
-    fieldTypeSelect.addEventListener('change', function() {
-        if (this.value == optionTypeId) {
-            optionsSection.style.display = 'block';
-            // Добавляем одно пустое поле по умолчанию
-            if (optionsContainer.children.length === 0) {
-                addNewOptionField();
-            }
-        } else {
-            optionsSection.style.display = 'none';
-            optionsContainer.innerHTML = ''; // Очищаем варианты
-        }
-    });
-
-    // Добавляем новое поле для варианта
-    addOptionBtn.addEventListener('click', addNewOptionField);
-
-    function addNewOptionField() {
-        const newOptionDiv = document.createElement('div');
-        newOptionDiv.className = 'input-group mb-2';
-        newOptionDiv.innerHTML = `
-            <input type="text" name="Options[]" class="form-control" placeholder="Введите вариант" required />
-        `;
-        optionsContainer.appendChild(newOptionDiv);
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-</script>
+    <script>
+        // Получаем ID типа "Варианты" из серверной логики
+        const optionTypeId = @((await Model.GetFieldTypeIdAsync(_context, "Варианты")));
+
+        const fieldTypeSelect = document.getElementById('fieldTypeSelect');
+        const optionsSection = document.getElementById('optionsSection');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const addOptionBtn = document.getElementById('addOptionBtn');
+
+        // Показываем/скрываем секцию вариантов при выборе типа
+        fieldTypeSelect.addEventListener('change', function() {
+            if (this.value == optionTypeId) {
+                optionsSection.style.display = 'block';
+                // Добавляем одно пустое поле по умолчанию
+                if (optionsContainer.children.length === 0) {
+                    addNewOptionField();
+                }
+            } else {
+                optionsSection.style.display = 'none';
+                optionsContainer.innerHTML = ''; // Очищаем варианты
+            }
+        });
+
+        // Добавляем новое поле для варианта
+        addOptionBtn.addEventListener('click', addNewOptionField);
+
+        function addNewOptionField() {
+            const newOptionDiv = document.createElement('div');
+            newOptionDiv.className = 'input-group mb-2';
+            newOptionDiv.innerHTML = `
+                <input type="text" name="Options[]" class="form-control" placeholder="Введите вариант" data-val="true" data-val-required="Заполните это поле" />
+                <span class="text-danger"></span>
+            `;
+            optionsContainer.appendChild(newOptionDiv);
+
+            // Перезапускаем валидацию для новых полей
+            $("form").removeData("validator").removeData("unobtrusiveValidation");
+            $.validator.unobtrusive.parse("form");
+        }
+    </script>
+}

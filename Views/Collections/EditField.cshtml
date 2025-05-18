@@ -1,109 +1,124 @@
-﻿@inject CollectorHub.Models.DBContext _context
-@model CollectorHub.ViewModels.CollectionFieldViewModel
+﻿@model CollectorHub.ViewModels.CollectionFieldViewModel
 
 @{
-    ViewData["Title"] = "Редактирование поля";
+    ViewData["Title"] = "Редактирование поля коллекции";
 }
 
-<h1>Редактирование поля</h1>
+<h1>@ViewData["Title"]</h1>
 
+<hr />
 <div class="row">
     <div class="col-md-8">
+        <form asp-action="EditField" method="post">
+            <input type="hidden" asp-for="FieldId" />
+            <input type="hidden" asp-for="CollectionId" />
+
+            <div class="form-group mb-3">
+                <label asp-for="Name" class="control-label">Название поля <span style="color: red;">*</span></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="FieldTypeId" class="control-label">Тип поля <span style="color: red;">*</span></label>
+                <select asp-for="FieldTypeId" class="form-control" asp-items="ViewBag.field_type_id">
+                    <option value="">-- Выберите тип --</option>
+                </select>
+                <span asp-validation-for="FieldTypeId" class="text-danger"></span>
+                <small class="form-text text-muted">Изменение типа поля приведёт к удалению всех значений этого поля в предметах.</small>
+            </div>
+
+            <div class="form-group mb-3">
+                <div class="form-check">
+                    <input asp-for="IsRequired" class="form-check-input" type="checkbox" />
+                    <label asp-for="IsRequired" class="form-check-label">Обязательное поле</label>
+                </div>
+            </div>
+
+            @if (Model.FieldTypeName == "Варианты")
+            {
+                <div class="form-group mb-3">
+                    <label class="control-label">Варианты</label>
+                    @for (int i = 0; i < Model.Options.Count; i++)
+                    {
+                        <div class="input-group mb-2">
+                            <input type="hidden" asp-for="OptionIds[i]" />
+                            <input type="text" asp-for="Options[i]" class="form-control" placeholder="Введите вариант" />
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-outline-danger delete-option" data-option="@Model.Options[i]">Удалить</button>
+                            </div>
+                        </div>
+                    }
+                    <div id="new-options-container"></div>
+                    <button type="button" id="add-option" class="btn btn-outline-primary mb-2">Добавить вариант</button>
+                    <span class="text-danger" asp-validation-for="Options"></span>
+                </div>
+            }
+
+            <div class="form-group mb-3">
+                <input type="submit" value="Сохранить" class="btn btn-primary" />
+                <a asp-action="Details" asp-route-id="@Model.CollectionId" class="btn btn-secondary">Отмена</a>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-4">
         <div class="card">
             <div class="card-header">
-                <h5 class="mb-0">Редактирование поля "@Model.Name"</h5>
+                Подсказка
             </div>
             <div class="card-body">
-                <form asp-action="EditField" method="post">
-                    <input type="hidden" asp-for="FieldId" />
-                    <input type="hidden" asp-for="CollectionId" />
-
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label asp-for="Name" class="form-label">Название поля</label>
-                            <input asp-for="Name" class="form-control" required />
-                            <span asp-validation-for="Name" class="text-danger"></span>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label asp-for="FieldTypeId" class="form-label">Тип поля</label>
-                            <select asp-for="FieldTypeId" class="form-control" asp-items="ViewBag.field_type_id" id="fieldTypeSelect" required>
-                                <option value="">-- Выберите тип поля --</option>
-                            </select>
-                            <span asp-validation-for="FieldTypeId" class="text-danger"></span>
-                            <small class="form-text text-warning">Внимание! Изменение типа поля приведет к потере всех значений этого поля в предметах.</small>
-                        </div>
-                    </div>
-
-                    <div class="form-check mb-3">
-                        <input asp-for="IsRequired" class="form-check-input" type="checkbox" />
-                        <label asp-for="IsRequired" class="form-check-label">Обязательное поле</label>
-                    </div>
-
-                    <div id="optionsSection" style="@(Model.FieldTypeName == "Варианты" ? "display: block;" : "display: none;")">
-                        <div class="mb-3">
-                            <label class="form-label">Варианты выбора</label>
-                            <div id="optionsContainer">
-                                @for (int i = 0; i < Model.Options.Count; i++)
-                                {
-                                    <div class="input-group mb-2">
-                                        <div class="input-group-text">
-                                            <input type="checkbox" name="DeleteOptions[@i]" value="@Model.Options[i]" />
-                                        </div>
-                                        <input type="hidden" name="OptionIds[@i]" value="@(i < Model.OptionIds.Count ? Model.OptionIds[i] : 0)" />
-                                        <input type="text" name="Options[@i]" class="form-control" value="@Model.Options[i]" required />
-                                    </div>
-                                }
-                            </div>
-                            <div id="newOptions"></div>
-                            <button type="button" id="addOptionBtn" class="btn btn-sm btn-outline-secondary mt-2">
-                                <i class="bi bi-plus"></i> Добавить вариант
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="d-flex justify-content-between mt-3">
-                        <button type="submit" class="btn btn-primary">Сохранить</button>
-                        <a asp-action="Details" asp-route-id="@Model.CollectionId" class="btn btn-secondary">Отмена</a>
-                    </div>
-                </form>
+                <p>Редактируйте поле коллекции.</p>
+                <p>Если вы измените тип поля, все текущие значения этого поля в предметах будут удалены.</p>
+                @if (Model.FieldTypeName == "Варианты")
+                {
+                    <p>Для типа "Варианты" необходимо указать хотя бы один вариант.</p>
+                }
             </div>
         </div>
     </div>
 </div>
 
-<script>
-    // Получаем ID типа "Варианты" из серверной логики
-    const optionTypeId = @((await Model.GetFieldTypeIdAsync(_context, "Варианты")));
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    @if (Model.FieldTypeName == "Варианты")
+    {
+        <script>
+            let optionIndex = @Model.Options.Count;
 
-    const fieldTypeSelect = document.getElementById('fieldTypeSelect');
-    const optionsSection = document.getElementById('optionsSection');
-    const optionsContainer = document.getElementById('optionsContainer');
-    const addOptionBtn = document.getElementById('addOptionBtn');
-    const newOptions = document.getElementById('newOptions');
+            document.getElementById('add-option').addEventListener('click', function () {
+                const container = document.getElementById('new-options-container');
+                const newOption = document.createElement('div');
+                newOption.className = 'input-group mb-2';
+                newOption.innerHTML = `
+                    <input type="hidden" name="OptionIds[${optionIndex}]" value="0" />
+                    <input type="text" name="Options[${optionIndex}]" class="form-control" placeholder="Введите вариант" />
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-outline-danger delete-option" data-option="">Удалить</button>
+                    </div>`;
+                container.appendChild(newOption);
+                optionIndex++;
+                attachDeleteListeners();
+            });
 
-    // Показываем/скрываем секцию вариантов при выборе типа
-    fieldTypeSelect.addEventListener('change', function() {
-        if (this.value == optionTypeId) {
-            optionsSection.style.display = 'block';
-        } else {
-            optionsSection.style.display = 'none';
-            optionsContainer.innerHTML = ''; // Очищаем существующие варианты
-            newOptions.innerHTML = ''; // Очищаем новые варианты
-        }
-    });
+            function attachDeleteListeners() {
+                document.querySelectorAll('.delete-option').forEach(button => {
+                    button.addEventListener('click', function () {
+                        const optionText = this.getAttribute('data-option');
+                        if (optionText) {
+                            const hiddenInput = document.createElement('input');
+                            hiddenInput.type = 'hidden';
+                            hiddenInput.name = 'DeleteOptions';
+                            hiddenInput.value = optionText;
+                            this.closest('form').appendChild(hiddenInput);
+                        }
+                        this.closest('.input-group').remove();
+                    });
+                });
+            }
 
-    // Добавляем новое поле для варианта
-    addOptionBtn.addEventListener('click', function() {
-        const newOptionDiv = document.createElement('div');
-        newOptionDiv.className = 'input-group mb-2';
-        newOptionDiv.innerHTML = `
-            <div class="input-group-text">
-                <input type="checkbox" name="DeleteOptions[]" value="new" />
-            </div>
-            <input type="hidden" name="OptionIds[]" value="0" />
-            <input type="text" name="Options[]" class="form-control" placeholder="Введите вариант" required />
-        `;
-        newOptions.appendChild(newOptionDiv);
-    });
-</script>
+            attachDeleteListeners();
+        </script>
+    }
+}

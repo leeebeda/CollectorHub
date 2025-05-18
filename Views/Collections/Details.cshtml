@@ -9,6 +9,7 @@
     <h1>@Model.name</h1>
     <div>
         <a asp-action="Edit" asp-route-id="@Model.collection_id" class="btn btn-primary">Редактировать</a>
+        <a asp-action="Index" class="btn btn-secondary">Назад к списку</a>
     </div>
 </div>
 
@@ -235,8 +236,4 @@
             </div>
         </div>
     </div>
-</div>
-
-<div class="mt-3">
-    <a asp-action="Index" class="btn btn-secondary">Назад к списку</a>
 </div>

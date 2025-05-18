@@ -20,3 +20,17 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.field-validation-error {
+    color: red !important;
+    display: block !important;
+    margin-top: 5px;
+}
+
+.input-validation-error {
+    border-color: red !important;
+}
+
+.is-invalid {
+    border-color: red !important;
+}

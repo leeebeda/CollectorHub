@@ -8,6 +8,7 @@
     <h1>@Model.Item.name</h1>
     <div>
         <a asp-action="Edit" asp-route-id="@Model.Item.item_id" class="btn btn-primary">Редактировать</a>
+        <a asp-action="Delete" asp-route-id="@Model.Item.item_id" class="btn btn-danger">Удалить</a>
         <a asp-action="Index" asp-route-collectionId="@Model.Item.collection_id" class="btn btn-secondary">Назад к списку</a>
     </div>
 </div>
@@ -121,7 +122,7 @@
                                             @("-")
                                         }
                                         <div class="mt-2">
-                                            <a asp-controller="Images" asp-action="AddItemImage" asp-route-itemId="@Model.Item.item_id" asp-route-collectionId="@Model.CollectionId" class="btn btn-sm btn-outline-primary">
+                                            <a asp-controller="Images" asp-action="AddItemImage" asp-route-itemId="@Model.Item.item_id" asp-route-collectionId="@Model.CollectionId" asp-route-fieldId="@field.field_id" class="btn btn-sm btn-outline-primary">
                                                 Управление изображениями
                                             </a>
                                         </div>
@@ -138,10 +139,4 @@
             </div>
         </div>
     </div>
-</div>
-
-<div class="mt-4">
-    <a asp-action="Edit" asp-route-id="@Model.Item.item_id" class="btn btn-primary">Редактировать</a>
-    <a asp-action="Delete" asp-route-id="@Model.Item.item_id" class="btn btn-danger">Удалить</a>
-    <a asp-controller="Collections" asp-action="Details" asp-route-id="@Model.CollectionId" class="btn btn-secondary">Назад к коллекции</a>
 </div>

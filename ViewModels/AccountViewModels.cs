@@ -26,12 +26,12 @@ namespace CollectorHub.ViewModels
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Имя пользователя обязательно")]
-        [StringLength(50, ErrorMessage = "Имя пользователя должно быть от {2} до {1} символов", MinimumLength = 3)]
+        [StringLength(50, ErrorMessage = "Имя пользователя должно быть от {2} символов", MinimumLength = 3)]
         [Display(Name = "Имя пользователя")]
         public string Username { get; set; }
 
         [Required(ErrorMessage = "Пароль обязателен")]
-        [StringLength(100, ErrorMessage = "Пароль должен быть от {2} до {1} символов", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "Пароль должен быть от {2} символов", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Пароль")]
         public string Password { get; set; }

@@ -10,10 +10,14 @@ public class CollectionFieldViewModel
 {
     public int FieldId { get; set; }
     public int CollectionId { get; set; }
-    [Required]
+
+    [Required(ErrorMessage = "Название поля обязательно")]
+    [StringLength(50, ErrorMessage = "Название поля не может превышать 50 символов")]
     public string Name { get; set; } = null!;
-    [Required]
+
+    [Required(ErrorMessage = "Тип поля обязателен")]
     public int FieldTypeId { get; set; }
+
     public string? FieldTypeName { get; set; }
     public bool IsRequired { get; set; }
     public List<string> Options { get; set; } = new List<string>();

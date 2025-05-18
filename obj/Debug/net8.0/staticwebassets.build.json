@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "uRk5uMnRW63+4WFKu6lFDI7ubtnIL0SZHLVgeA4cCYg=",
+  "Hash": "bOZTGpcu7Lo8DXTIZXdalpYxOFyFWXY363JdIYA5y8I=",
   "Source": "CollectorHub",
   "BasePath": "_content/CollectorHub",
   "Mode": "Default",
@@ -73,8 +73,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "c2tiyv64ts",
-      "Integrity": "pAGv4ietcJNk/EwsQZ5BN9+K4MuNYS2a9wl4Jw+q9D0=",
+      "Fingerprint": "qjby360uoz",
+      "Integrity": "ClbboQg8Xb2UZSqQT5RiJ+jA6EXj3zgT9lBfCubasx0=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
@@ -1403,6 +1403,48 @@
       "OriginalItemSpec": "wwwroot\\uploads\\collections\\11\\9ace7d54-c63b-4fe2-b306-115604948c9f.jpg"
     },
     {
+      "Identity": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\collections\\21\\382ce109-33c1-47f2-a6d8-e193b09040f5.png",
+      "SourceId": "CollectorHub",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\",
+      "BasePath": "_content/CollectorHub",
+      "RelativePath": "uploads/collections/21/382ce109-33c1-47f2-a6d8-e193b09040f5#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "c9kxwoabg1",
+      "Integrity": "0MQiE2aFmhNZb1HBUVknu4AribU4Xbvd2FMIKficF2I=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\collections\\21\\382ce109-33c1-47f2-a6d8-e193b09040f5.png"
+    },
+    {
+      "Identity": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\collections\\21\\c9db1d3c-61eb-4139-9cae-8370661eb53f.jpg",
+      "SourceId": "CollectorHub",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\",
+      "BasePath": "_content/CollectorHub",
+      "RelativePath": "uploads/collections/21/c9db1d3c-61eb-4139-9cae-8370661eb53f#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "pfdfuna8o8",
+      "Integrity": "xSth+U/+El5Qplv5eBFJi6gi/yjMMl9w5hVM1QINck4=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\collections\\21\\c9db1d3c-61eb-4139-9cae-8370661eb53f.jpg"
+    },
+    {
       "Identity": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\collections\\4\\224cb99b-6a65-4787-a5a9-cf186d0508d4.jpg",
       "SourceId": "CollectorHub",
       "SourceType": "Discovered",
@@ -1464,6 +1506,111 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\uploads\\items\\1\\20\\6c94b583-e2c2-4eba-a0e3-5ac0dd2cff30.jpg"
+    },
+    {
+      "Identity": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\items\\11\\57\\7b846cc1-63aa-4633-b8db-e1ce49a91678.png",
+      "SourceId": "CollectorHub",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\",
+      "BasePath": "_content/CollectorHub",
+      "RelativePath": "uploads/items/11/57/7b846cc1-63aa-4633-b8db-e1ce49a91678#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "c9kxwoabg1",
+      "Integrity": "0MQiE2aFmhNZb1HBUVknu4AribU4Xbvd2FMIKficF2I=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\items\\11\\57\\7b846cc1-63aa-4633-b8db-e1ce49a91678.png"
+    },
+    {
+      "Identity": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\items\\15\\73\\35765b45-f337-43ac-9cf8-469f9e5323df.png",
+      "SourceId": "CollectorHub",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\",
+      "BasePath": "_content/CollectorHub",
+      "RelativePath": "uploads/items/15/73/35765b45-f337-43ac-9cf8-469f9e5323df#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "ed87nmnfp8",
+      "Integrity": "3hr6l9+0nCfAFVYj5U53+QNLMsmALUQaNZ7tyAZlnGQ=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\items\\15\\73\\35765b45-f337-43ac-9cf8-469f9e5323df.png"
+    },
+    {
+      "Identity": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\items\\15\\73\\75754bfc-7747-46ee-9d8e-85178a26c082.jpg",
+      "SourceId": "CollectorHub",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\",
+      "BasePath": "_content/CollectorHub",
+      "RelativePath": "uploads/items/15/73/75754bfc-7747-46ee-9d8e-85178a26c082#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "a3iio1pds8",
+      "Integrity": "FrjMzsJzUNEXDkhfZSMpmO6pFse3oRdYrO/n5bZhBGU=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\items\\15\\73\\75754bfc-7747-46ee-9d8e-85178a26c082.jpg"
+    },
+    {
+      "Identity": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\items\\19\\79\\0178f73e-6a1d-4ae9-9002-2df0b53c3601.jpg",
+      "SourceId": "CollectorHub",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\",
+      "BasePath": "_content/CollectorHub",
+      "RelativePath": "uploads/items/19/79/0178f73e-6a1d-4ae9-9002-2df0b53c3601#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "bg9te2y7uo",
+      "Integrity": "G8si35XREV9NiUbzBdfnYs9Wqxxu9j7XpObAHsOL3GU=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\items\\19\\79\\0178f73e-6a1d-4ae9-9002-2df0b53c3601.jpg"
+    },
+    {
+      "Identity": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\items\\19\\79\\3de136d5-8987-4a13-b49c-acff8455fc43.png",
+      "SourceId": "CollectorHub",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\",
+      "BasePath": "_content/CollectorHub",
+      "RelativePath": "uploads/items/19/79/3de136d5-8987-4a13-b49c-acff8455fc43#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "w4nlbaq8iu",
+      "Integrity": "oKRIDqIWPee1RPa2TLaMDQPCb3kIfYUh8lEOCpTtTlU=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\items\\19\\79\\3de136d5-8987-4a13-b49c-acff8455fc43.png"
     },
     {
       "Identity": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\items\\2\\36\\79760a54-c080-41ca-b998-f4ce53db8032.png",
@@ -1674,51 +1821,6 @@
       ]
     },
     {
-      "Route": "css/site.c2tiyv64ts.css",
-      "AssetFile": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\css\\site.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "362"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"pAGv4ietcJNk/EwsQZ5BN9+K4MuNYS2a9wl4Jw+q9D0=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Sat, 17 May 2025 12:04:28 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "c2tiyv64ts"
-        },
-        {
-          "Name": "label",
-          "Value": "css/site.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-pAGv4ietcJNk/EwsQZ5BN9+K4MuNYS2a9wl4Jw+q9D0="
-        }
-      ]
-    },
-    {
       "Route": "css/site.css",
       "AssetFile": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\css\\site.css",
       "Selectors": [],
@@ -1729,7 +1831,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "362"
+          "Value": "598"
         },
         {
           "Name": "Content-Type",
@@ -1737,11 +1839,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"pAGv4ietcJNk/EwsQZ5BN9+K4MuNYS2a9wl4Jw+q9D0=\""
+          "Value": "\"ClbboQg8Xb2UZSqQT5RiJ+jA6EXj3zgT9lBfCubasx0=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sat, 17 May 2025 12:04:28 GMT"
+          "Value": "Sun, 18 May 2025 12:47:49 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1751,7 +1853,52 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-pAGv4ietcJNk/EwsQZ5BN9+K4MuNYS2a9wl4Jw+q9D0="
+          "Value": "sha256-ClbboQg8Xb2UZSqQT5RiJ+jA6EXj3zgT9lBfCubasx0="
+        }
+      ]
+    },
+    {
+      "Route": "css/site.qjby360uoz.css",
+      "AssetFile": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\css\\site.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "598"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"ClbboQg8Xb2UZSqQT5RiJ+jA6EXj3zgT9lBfCubasx0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 18 May 2025 12:47:49 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "qjby360uoz"
+        },
+        {
+          "Name": "label",
+          "Value": "css/site.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-ClbboQg8Xb2UZSqQT5RiJ+jA6EXj3zgT9lBfCubasx0="
         }
       ]
     },
@@ -6922,6 +7069,170 @@
       ]
     },
     {
+      "Route": "uploads/collections/21/382ce109-33c1-47f2-a6d8-e193b09040f5.c9kxwoabg1.png",
+      "AssetFile": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\collections\\21\\382ce109-33c1-47f2-a6d8-e193b09040f5.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "49888"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"0MQiE2aFmhNZb1HBUVknu4AribU4Xbvd2FMIKficF2I=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 18 May 2025 23:14:22 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "c9kxwoabg1"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/collections/21/382ce109-33c1-47f2-a6d8-e193b09040f5.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-0MQiE2aFmhNZb1HBUVknu4AribU4Xbvd2FMIKficF2I="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/collections/21/382ce109-33c1-47f2-a6d8-e193b09040f5.png",
+      "AssetFile": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\collections\\21\\382ce109-33c1-47f2-a6d8-e193b09040f5.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "49888"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"0MQiE2aFmhNZb1HBUVknu4AribU4Xbvd2FMIKficF2I=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 18 May 2025 23:14:22 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-0MQiE2aFmhNZb1HBUVknu4AribU4Xbvd2FMIKficF2I="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/collections/21/c9db1d3c-61eb-4139-9cae-8370661eb53f.jpg",
+      "AssetFile": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\collections\\21\\c9db1d3c-61eb-4139-9cae-8370661eb53f.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "290719"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"xSth+U/+El5Qplv5eBFJi6gi/yjMMl9w5hVM1QINck4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 18 May 2025 23:14:17 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-xSth+U/+El5Qplv5eBFJi6gi/yjMMl9w5hVM1QINck4="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/collections/21/c9db1d3c-61eb-4139-9cae-8370661eb53f.pfdfuna8o8.jpg",
+      "AssetFile": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\collections\\21\\c9db1d3c-61eb-4139-9cae-8370661eb53f.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "290719"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"xSth+U/+El5Qplv5eBFJi6gi/yjMMl9w5hVM1QINck4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 18 May 2025 23:14:17 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "pfdfuna8o8"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/collections/21/c9db1d3c-61eb-4139-9cae-8370661eb53f.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-xSth+U/+El5Qplv5eBFJi6gi/yjMMl9w5hVM1QINck4="
+        }
+      ]
+    },
+    {
       "Route": "uploads/collections/4/224cb99b-6a65-4787-a5a9-cf186d0508d4.jpg",
       "AssetFile": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\collections\\4\\224cb99b-6a65-4787-a5a9-cf186d0508d4.jpg",
       "Selectors": [],
@@ -7164,6 +7475,416 @@
         {
           "Name": "integrity",
           "Value": "sha256-xSth+U/+El5Qplv5eBFJi6gi/yjMMl9w5hVM1QINck4="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/items/11/57/7b846cc1-63aa-4633-b8db-e1ce49a91678.c9kxwoabg1.png",
+      "AssetFile": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\items\\11\\57\\7b846cc1-63aa-4633-b8db-e1ce49a91678.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "49888"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"0MQiE2aFmhNZb1HBUVknu4AribU4Xbvd2FMIKficF2I=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 18 May 2025 11:43:47 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "c9kxwoabg1"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/items/11/57/7b846cc1-63aa-4633-b8db-e1ce49a91678.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-0MQiE2aFmhNZb1HBUVknu4AribU4Xbvd2FMIKficF2I="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/items/11/57/7b846cc1-63aa-4633-b8db-e1ce49a91678.png",
+      "AssetFile": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\items\\11\\57\\7b846cc1-63aa-4633-b8db-e1ce49a91678.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "49888"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"0MQiE2aFmhNZb1HBUVknu4AribU4Xbvd2FMIKficF2I=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 18 May 2025 11:43:47 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-0MQiE2aFmhNZb1HBUVknu4AribU4Xbvd2FMIKficF2I="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/items/15/73/35765b45-f337-43ac-9cf8-469f9e5323df.ed87nmnfp8.png",
+      "AssetFile": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\items\\15\\73\\35765b45-f337-43ac-9cf8-469f9e5323df.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "896619"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"3hr6l9+0nCfAFVYj5U53+QNLMsmALUQaNZ7tyAZlnGQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 18 May 2025 21:47:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "ed87nmnfp8"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/items/15/73/35765b45-f337-43ac-9cf8-469f9e5323df.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-3hr6l9+0nCfAFVYj5U53+QNLMsmALUQaNZ7tyAZlnGQ="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/items/15/73/35765b45-f337-43ac-9cf8-469f9e5323df.png",
+      "AssetFile": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\items\\15\\73\\35765b45-f337-43ac-9cf8-469f9e5323df.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "896619"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"3hr6l9+0nCfAFVYj5U53+QNLMsmALUQaNZ7tyAZlnGQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 18 May 2025 21:47:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-3hr6l9+0nCfAFVYj5U53+QNLMsmALUQaNZ7tyAZlnGQ="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/items/15/73/75754bfc-7747-46ee-9d8e-85178a26c082.a3iio1pds8.jpg",
+      "AssetFile": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\items\\15\\73\\75754bfc-7747-46ee-9d8e-85178a26c082.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "71878"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"FrjMzsJzUNEXDkhfZSMpmO6pFse3oRdYrO/n5bZhBGU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 18 May 2025 21:47:24 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "a3iio1pds8"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/items/15/73/75754bfc-7747-46ee-9d8e-85178a26c082.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-FrjMzsJzUNEXDkhfZSMpmO6pFse3oRdYrO/n5bZhBGU="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/items/15/73/75754bfc-7747-46ee-9d8e-85178a26c082.jpg",
+      "AssetFile": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\items\\15\\73\\75754bfc-7747-46ee-9d8e-85178a26c082.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "71878"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"FrjMzsJzUNEXDkhfZSMpmO6pFse3oRdYrO/n5bZhBGU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 18 May 2025 21:47:24 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-FrjMzsJzUNEXDkhfZSMpmO6pFse3oRdYrO/n5bZhBGU="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/items/19/79/0178f73e-6a1d-4ae9-9002-2df0b53c3601.bg9te2y7uo.jpg",
+      "AssetFile": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\items\\19\\79\\0178f73e-6a1d-4ae9-9002-2df0b53c3601.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "266734"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"G8si35XREV9NiUbzBdfnYs9Wqxxu9j7XpObAHsOL3GU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 18 May 2025 23:13:24 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "bg9te2y7uo"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/items/19/79/0178f73e-6a1d-4ae9-9002-2df0b53c3601.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-G8si35XREV9NiUbzBdfnYs9Wqxxu9j7XpObAHsOL3GU="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/items/19/79/0178f73e-6a1d-4ae9-9002-2df0b53c3601.jpg",
+      "AssetFile": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\items\\19\\79\\0178f73e-6a1d-4ae9-9002-2df0b53c3601.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "266734"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"G8si35XREV9NiUbzBdfnYs9Wqxxu9j7XpObAHsOL3GU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 18 May 2025 23:13:24 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-G8si35XREV9NiUbzBdfnYs9Wqxxu9j7XpObAHsOL3GU="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/items/19/79/3de136d5-8987-4a13-b49c-acff8455fc43.png",
+      "AssetFile": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\items\\19\\79\\3de136d5-8987-4a13-b49c-acff8455fc43.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "651545"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"oKRIDqIWPee1RPa2TLaMDQPCb3kIfYUh8lEOCpTtTlU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 18 May 2025 23:13:17 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-oKRIDqIWPee1RPa2TLaMDQPCb3kIfYUh8lEOCpTtTlU="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/items/19/79/3de136d5-8987-4a13-b49c-acff8455fc43.w4nlbaq8iu.png",
+      "AssetFile": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\items\\19\\79\\3de136d5-8987-4a13-b49c-acff8455fc43.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "651545"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"oKRIDqIWPee1RPa2TLaMDQPCb3kIfYUh8lEOCpTtTlU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 18 May 2025 23:13:17 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "w4nlbaq8iu"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/items/19/79/3de136d5-8987-4a13-b49c-acff8455fc43.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-oKRIDqIWPee1RPa2TLaMDQPCb3kIfYUh8lEOCpTtTlU="
         }
       ]
     },

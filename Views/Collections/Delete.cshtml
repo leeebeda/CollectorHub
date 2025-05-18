@@ -1,46 +1,53 @@
-﻿@model CollectorHub.Models.Item
+﻿@model CollectorHub.Models.Collection
 
 @{
-    ViewData["Title"] = "Удаление предмета";
+    ViewData["Title"] = "Удаление коллекции";
 }
 
-<h1>Удаление предмета</h1>
+<h1>@ViewData["Title"]</h1>
 
 <div class="alert alert-danger">
-    <h3>Вы уверены, что хотите удалить этот предмет?</h3>
-    <p>Это действие нельзя будет отменить. Все значения полей этого предмета будут удалены.</p>
+    <h3>Вы уверены, что хотите удалить эту коллекцию?</h3>
+    <p>Это действие нельзя будет отменить. Все предметы и поля коллекции также будут удалены.</p>
 </div>
+
+<div asp-validation-summary="All" class="text-danger"></div>
 
 <div class="card mb-4">
     <div class="card-header">
-        <h5 class="mb-0">Информация о предмете</h5>
+        Информация о коллекции
     </div>
     <div class="card-body">
         <dl class="row">
             <dt class="col-sm-3">Название</dt>
             <dd class="col-sm-9">@Model.name</dd>
 
-            <dt class="col-sm-3">Коллекция</dt>
-            <dd class="col-sm-9">@Model.collection.name</dd>
+            @if (!string.IsNullOrEmpty(Model.description))
+            {
+                <dt class="col-sm-3">Описание</dt>
+                <dd class="col-sm-9">@Model.description</dd>
+            }
 
-            <dt class="col-sm-3">Статус</dt>
-            <dd class="col-sm-9">
-                <span class="badge @(Model.status.code == "available" ? "bg-success" :
-                                   Model.status.code == "delivery" ? "bg-info" :
-                                   Model.status.code == "pre-order" ? "bg-warning" :
-                                   "bg-secondary")">
-                    @Model.status.name
-                </span>
-            </dd>
+            <dt class="col-sm-3">Видимость</dt>
+            <dd class="col-sm-9">@Model.visibility.name</dd>
 
-            <dt class="col-sm-3">Дата добавления</dt>
-            <dd class="col-sm-9">@String.Format("{0:dd.MM.yyyy}", Model.created_at)</dd>
+            @if (Model.template != null)
+            {
+                <dt class="col-sm-3">Шаблон</dt>
+                <dd class="col-sm-9">@Model.template.name</dd>
+            }
+
+            @if (Model.parent != null)
+            {
+                <dt class="col-sm-3">Родительская коллекция</dt>
+                <dd class="col-sm-9">@Model.parent.name</dd>
+            }
         </dl>
     </div>
 </div>
 
 <form asp-action="Delete">
-    <input type="hidden" asp-for="item_id" />
+    <input type="hidden" asp-for="collection_id" />
     <input type="submit" value="Удалить" class="btn btn-danger" />
-    <a asp-action="Index" asp-route-collectionId="@Model.collection_id" class="btn btn-secondary">Отмена</a>
+    <a asp-action="Index" class="btn btn-secondary">Отмена</a>
 </form>

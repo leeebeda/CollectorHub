@@ -2,11 +2,11 @@
 
 @{
     ViewData["Title"] = "Управление изображениями";
-    var itemId = (int)ViewData["ItemId"];
-    var fieldId = (int)ViewData["FieldId"];
-    var itemName = (string)ViewData["ItemName"];
-    var fieldName = (string)ViewData["FieldName"];
-    var collectionId = (int)ViewData["CollectionId"];
+    var itemId = ViewData["ItemId"] != null ? (int)ViewData["ItemId"] : 0;
+    var itemName = ViewData["ItemName"] as string ?? "Неизвестный предмет";
+    var collectionId = ViewData["CollectionId"] != null ? (int)ViewData["CollectionId"] : 0;
+    var fieldId = ViewData["FieldId"] != null ? (int)ViewData["FieldId"] : 0;
+    var fieldName = ViewData["FieldName"] as string ?? "Неизвестное поле";
 }
 
 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -44,6 +44,7 @@
         <form asp-action="UploadItemImage" method="post" enctype="multipart/form-data">
             <input type="hidden" name="itemId" value="@itemId" />
             <input type="hidden" name="fieldId" value="@fieldId" />
+            <input type="hidden" name="collectionId" value="@collectionId" />
 
             <div class="form-group mb-3">
                 <label for="image" class="form-label">Выберите изображение</label>

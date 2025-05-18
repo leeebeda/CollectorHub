@@ -19,10 +19,10 @@ namespace CollectorHub.Controllers
             _environment = environment;
         }
 
-        // GET: Images/AddItemImage/5?fieldId=10 (5 - ID предмета, 10 - ID поля)
-        public async Task<IActionResult> AddItemImage(int? id, int? fieldId)
+        // GET: Images/AddItemImage
+        public async Task<IActionResult> AddItemImage(int? itemId, int? collectionId, int? fieldId)
         {
-            if (id == null || fieldId == null)
+            if (itemId == null || collectionId == null || fieldId == null)
             {
                 return NotFound();
             }
@@ -32,121 +32,47 @@ namespace CollectorHub.Controllers
             // Получаем предмет и проверяем, принадлежит ли он коллекции текущего пользователя
             var item = await _context.Items
                 .Include(i => i.collection)
-                .FirstOrDefaultAsync(i => i.item_id == id && i.collection.user_id == userId);
+                .FirstOrDefaultAsync(i => i.item_id == itemId && i.collection_id == collectionId && i.collection.user_id == userId);
 
             if (item == null)
             {
                 return NotFound();
             }
 
-            // Проверяем, существует ли поле и имеет ли оно тип "image"
+            // Проверяем, существует ли поле и имеет ли оно тип "Фото"
             var field = await _context.CollectionFields
                 .Include(f => f.field_type)
-                .FirstOrDefaultAsync(f => f.field_id == fieldId && f.collection_id == item.collection_id && f.field_type.name == "image");
+                .FirstOrDefaultAsync(f => f.field_id == fieldId && f.collection_id == collectionId && f.field_type.name == "Фото");
 
             if (field == null)
             {
                 return NotFound();
             }
 
-            // Получаем существующие изображения для этого поля
+            // Получаем изображения для этого поля
             var images = await _context.ItemValueImages
-                .Where(i => i.item_id == id && i.field_id == fieldId)
+                .Where(i => i.item_id == itemId && i.field_id == fieldId)
                 .OrderBy(i => i.sort_order)
                 .ToListAsync();
 
-            ViewData["ItemId"] = id;
-            ViewData["FieldId"] = fieldId;
+            ViewData["ItemId"] = itemId;
+            ViewData["CollectionId"] = collectionId;
             ViewData["ItemName"] = item.name;
+            ViewData["FieldId"] = fieldId;
             ViewData["FieldName"] = field.name;
-            ViewData["CollectionId"] = item.collection_id;
 
             return View(images);
-        }
-
-        // GET: Images/MoveItemImageUp/5
-        public async Task<IActionResult> MoveItemImageUp(int id)
-        {
-            var userId = int.Parse(User.FindFirstValue("UserId"));
-
-            // Получаем изображение
-            var image = await _context.ItemValueImages
-                .Include(i => i.item)
-                    .ThenInclude(i => i.collection)
-                .FirstOrDefaultAsync(i => i.id == id && i.item.collection.user_id == userId);
-
-            if (image == null)
-            {
-                return NotFound();
-            }
-
-            // Получаем предыдущее изображение (с меньшим порядком сортировки)
-            var previousImage = await _context.ItemValueImages
-                .Where(i => i.item_id == image.item_id && i.field_id == image.field_id && i.sort_order < image.sort_order)
-                .OrderByDescending(i => i.sort_order)
-                .FirstOrDefaultAsync();
-
-            if (previousImage != null)
-            {
-                // Меняем местами порядок сортировки
-                var tempOrder = image.sort_order;
-                image.sort_order = previousImage.sort_order;
-                previousImage.sort_order = tempOrder;
-
-                _context.Update(image);
-                _context.Update(previousImage);
-                await _context.SaveChangesAsync();
-            }
-
-            return RedirectToAction(nameof(AddItemImage), new { id = image.item_id, fieldId = image.field_id });
-        }
-
-        // GET: Images/MoveItemImageDown/5
-        public async Task<IActionResult> MoveItemImageDown(int id)
-        {
-            var userId = int.Parse(User.FindFirstValue("UserId"));
-
-            // Получаем изображение
-            var image = await _context.ItemValueImages
-                .Include(i => i.item)
-                    .ThenInclude(i => i.collection)
-                .FirstOrDefaultAsync(i => i.id == id && i.item.collection.user_id == userId);
-
-            if (image == null)
-            {
-                return NotFound();
-            }
-
-            // Получаем следующее изображение (с большим порядком сортировки)
-            var nextImage = await _context.ItemValueImages
-                .Where(i => i.item_id == image.item_id && i.field_id == image.field_id && i.sort_order > image.sort_order)
-                .OrderBy(i => i.sort_order)
-                .FirstOrDefaultAsync();
-
-            if (nextImage != null)
-            {
-                // Меняем местами порядок сортировки
-                var tempOrder = image.sort_order;
-                image.sort_order = nextImage.sort_order;
-                nextImage.sort_order = tempOrder;
-
-                _context.Update(image);
-                _context.Update(nextImage);
-                await _context.SaveChangesAsync();
-            }
-
-            return RedirectToAction(nameof(AddItemImage), new { id = image.item_id, fieldId = image.field_id });
         }
 
         // POST: Images/UploadItemImage
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UploadItemImage(int itemId, int fieldId, IFormFile image)
+        public async Task<IActionResult> UploadItemImage(int itemId, int collectionId, int fieldId, IFormFile image)
         {
             if (image == null || image.Length == 0)
             {
                 TempData["Error"] = "Пожалуйста, выберите файл для загрузки.";
-                return RedirectToAction(nameof(AddItemImage), new { id = itemId, fieldId = fieldId });
+                return RedirectToAction(nameof(AddItemImage), new { itemId, collectionId, fieldId });
             }
 
             var userId = int.Parse(User.FindFirstValue("UserId"));
@@ -154,21 +80,22 @@ namespace CollectorHub.Controllers
             // Получаем предмет и проверяем, принадлежит ли он коллекции текущего пользователя
             var item = await _context.Items
                 .Include(i => i.collection)
-                .FirstOrDefaultAsync(i => i.item_id == itemId && i.collection.user_id == userId);
+                .FirstOrDefaultAsync(i => i.item_id == itemId && i.collection_id == collectionId && i.collection.user_id == userId);
 
             if (item == null)
             {
                 return NotFound();
             }
 
-            // Проверяем, существует ли поле и имеет ли оно тип "image"
+            // Проверяем, существует ли поле и имеет ли оно тип "Фото"
             var field = await _context.CollectionFields
                 .Include(f => f.field_type)
-                .FirstOrDefaultAsync(f => f.field_id == fieldId && f.collection_id == item.collection_id && f.field_type.name == "image");
+                .FirstOrDefaultAsync(f => f.field_id == fieldId && f.collection_id == item.collection_id && f.field_type.name == "Фото");
 
             if (field == null)
             {
-                return NotFound();
+                TempData["Error"] = "Поле не найдено или не является полем типа 'Фото'.";
+                return RedirectToAction(nameof(AddItemImage), new { itemId, collectionId, fieldId });
             }
 
             // Проверяем тип файла
@@ -178,7 +105,7 @@ namespace CollectorHub.Controllers
             if (!allowedExtensions.Contains(extension))
             {
                 TempData["Error"] = "Разрешены только файлы изображений (jpg, jpeg, png, gif).";
-                return RedirectToAction(nameof(AddItemImage), new { id = itemId, fieldId = fieldId });
+                return RedirectToAction(nameof(AddItemImage), new { itemId, collectionId, fieldId });
             }
 
             try
@@ -222,10 +149,84 @@ namespace CollectorHub.Controllers
                 TempData["Error"] = $"Ошибка при загрузке изображения: {ex.Message}";
             }
 
-            return RedirectToAction(nameof(AddItemImage), new { id = itemId, fieldId = fieldId });
+            return RedirectToAction(nameof(AddItemImage), new { itemId, collectionId, fieldId });
         }
 
-        // POST: Images/DeleteItemImage/5
+        // GET: Images/MoveItemImageUp
+        public async Task<IActionResult> MoveItemImageUp(int id)
+        {
+            var userId = int.Parse(User.FindFirstValue("UserId"));
+
+            // Получаем изображение
+            var image = await _context.ItemValueImages
+                .Include(i => i.item)
+                    .ThenInclude(i => i.collection)
+                .FirstOrDefaultAsync(i => i.id == id && i.item.collection.user_id == userId);
+
+            if (image == null)
+            {
+                return NotFound();
+            }
+
+            // Получаем предыдущее изображение (с меньшим порядком сортировки)
+            var previousImage = await _context.ItemValueImages
+                .Where(i => i.item_id == image.item_id && i.field_id == image.field_id && i.sort_order < image.sort_order)
+                .OrderByDescending(i => i.sort_order)
+                .FirstOrDefaultAsync();
+
+            if (previousImage != null)
+            {
+                // Меняем местами порядок сортировки
+                var tempOrder = image.sort_order;
+                image.sort_order = previousImage.sort_order;
+                previousImage.sort_order = tempOrder;
+
+                _context.Update(image);
+                _context.Update(previousImage);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(AddItemImage), new { id = image.item_id, fieldId = image.field_id });
+        }
+
+        // GET: Images/MoveItemImageDown
+        public async Task<IActionResult> MoveItemImageDown(int id)
+        {
+            var userId = int.Parse(User.FindFirstValue("UserId"));
+
+            // Получаем изображение
+            var image = await _context.ItemValueImages
+                .Include(i => i.item)
+                    .ThenInclude(i => i.collection)
+                .FirstOrDefaultAsync(i => i.id == id && i.item.collection.user_id == userId);
+
+            if (image == null)
+            {
+                return NotFound();
+            }
+
+            // Получаем следующее изображение (с большим порядком сортировки)
+            var nextImage = await _context.ItemValueImages
+                .Where(i => i.item_id == image.item_id && i.field_id == image.field_id && i.sort_order > image.sort_order)
+                .OrderBy(i => i.sort_order)
+                .FirstOrDefaultAsync();
+
+            if (nextImage != null)
+            {
+                // Меняем местами порядок сортировки
+                var tempOrder = image.sort_order;
+                image.sort_order = nextImage.sort_order;
+                nextImage.sort_order = tempOrder;
+
+                _context.Update(image);
+                _context.Update(nextImage);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(AddItemImage), new { id = image.item_id, fieldId = image.field_id });
+        }
+
+        // POST: Images/DeleteItemImage
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteItemImage(int id)
@@ -266,7 +267,7 @@ namespace CollectorHub.Controllers
             return RedirectToAction(nameof(AddItemImage), new { id = image.item_id, fieldId = image.field_id });
         }
 
-        // GET: Images/AddCollectionImage/5 (5 - ID коллекции)
+        // GET: Images/AddCollectionImage
         public async Task<IActionResult> AddCollectionImage(int? id)
         {
             if (id == null)
@@ -372,7 +373,7 @@ namespace CollectorHub.Controllers
             return RedirectToAction(nameof(AddCollectionImage), new { id = collectionId });
         }
 
-        // POST: Images/DeleteCollectionImage/5
+        // POST: Images/DeleteCollectionImage
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteCollectionImage(int id)
@@ -412,7 +413,7 @@ namespace CollectorHub.Controllers
             return RedirectToAction(nameof(AddCollectionImage), new { id = image.collection_id });
         }
 
-        // GET: Images/MoveCollectionImageUp/5
+        // GET: Images/MoveCollectionImageUp
         public async Task<IActionResult> MoveCollectionImageUp(int id)
         {
             var userId = int.Parse(User.FindFirstValue("UserId"));
@@ -448,7 +449,7 @@ namespace CollectorHub.Controllers
             return RedirectToAction(nameof(AddCollectionImage), new { id = image.collection_id });
         }
 
-        // GET: Images/MoveCollectionImageDown/5
+        // GET: Images/MoveCollectionImageDown
         public async Task<IActionResult> MoveCollectionImageDown(int id)
         {
             var userId = int.Parse(User.FindFirstValue("UserId"));
