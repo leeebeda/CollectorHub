@@ -260,6 +260,10 @@ namespace CollectorHub.Controllers
             // Заполняем выпадающий список статусов
             ViewData["status_id"] = new SelectList(_context.ItemStatuses, "status_id", "name");
 
+            // Передаем ID статуса "wishlist" в ViewBag
+            var wishlistStatus = await _context.ItemStatuses.FirstOrDefaultAsync(s => s.code == "wishlist");
+            ViewBag.WishlistStatusId = wishlistStatus?.status_id;
+
             // Создаем модель представления
             var viewModel = new CreateItemViewModel
             {
@@ -288,6 +292,13 @@ namespace CollectorHub.Controllers
                 return NotFound();
             }
 
+            // Проверяем, если ранг указан, но статус не "wishlist"
+            var status = await _context.ItemStatuses.FindAsync(viewModel.StatusId);
+            if (viewModel.WishlistRank.HasValue && status?.code != "wishlist")
+            {
+                ModelState.AddModelError("WishlistRank", "Ранг в списке желаний можно указать только для статуса 'Вишлист'.");
+            }
+
             if (ModelState.IsValid)
             {
                 try
@@ -305,7 +316,6 @@ namespace CollectorHub.Controllers
                     await _context.SaveChangesAsync();
 
                     // Если статус - wishlist, добавляем запись в WishlistItems
-                    var status = await _context.ItemStatuses.FindAsync(viewModel.StatusId);
                     if (status?.code == "wishlist" && viewModel.WishlistRank.HasValue)
                     {
                         var wishlistItem = new WishlistItem
@@ -330,13 +340,11 @@ namespace CollectorHub.Controllers
             }
 
             // Если модель невалидна, заново заполняем данные
-            // Получаем поля коллекции
             var collectionFields = await _context.CollectionFields
                 .Include(f => f.field_type)
                 .Where(f => f.collection_id == viewModel.CollectionId)
                 .ToListAsync();
 
-            // Получаем опции для полей типа "option"
             var optionFields = collectionFields
                 .Where(f => f.field_type.name == "Варианты")
                 .Select(f => f.field_id)
@@ -347,10 +355,11 @@ namespace CollectorHub.Controllers
                 .GroupBy(o => o.field_id)
                 .ToDictionaryAsync(g => g.Key, g => g.ToList());
 
-            // Заполняем выпадающий список статусов
             ViewData["status_id"] = new SelectList(_context.ItemStatuses, "status_id", "name", viewModel.StatusId);
 
-            // Обновляем модель представления
+            var wishlistStatus = await _context.ItemStatuses.FirstOrDefaultAsync(s => s.code == "wishlist");
+            ViewBag.WishlistStatusId = wishlistStatus?.status_id;
+
             viewModel.CollectionName = collection.name;
             viewModel.CollectionFields = collectionFields;
             viewModel.FieldOptions = fieldOptions;
@@ -426,9 +435,13 @@ namespace CollectorHub.Controllers
             // Заполняем выпадающий список статусов
             ViewData["status_id"] = new SelectList(_context.ItemStatuses, "status_id", "name", item.status_id);
 
+            // Передаем ID статуса "wishlist" в ViewBag
+            var wishlistStatus = await _context.ItemStatuses.FirstOrDefaultAsync(s => s.code == "wishlist");
+            ViewBag.WishlistStatusId = wishlistStatus?.status_id;
+
             // Если предмет в списке желаний, получаем его ранг
             int? wishlistRank = null;
-            if (item.status_id == _context.ItemStatuses.FirstOrDefault(s => s.code == "wishlist")?.status_id)
+            if (item.status_id == wishlistStatus?.status_id)
             {
                 var wishlistItem = await _context.WishlistItems
                     .FirstOrDefaultAsync(w => w.item_id == id);
@@ -506,6 +519,13 @@ namespace CollectorHub.Controllers
                 return NotFound();
             }
 
+            // Проверяем, если ранг указан, но статус не "wishlist"
+            var status = await _context.ItemStatuses.FindAsync(viewModel.StatusId);
+            if (viewModel.WishlistRank.HasValue && status?.code != "wishlist")
+            {
+                ModelState.AddModelError("WishlistRank", "Ранг в списке желаний можно указать только для статуса 'Вишлист'.");
+            }
+
             if (ModelState.IsValid)
             {
                 try
@@ -517,7 +537,6 @@ namespace CollectorHub.Controllers
                     _context.Update(item);
 
                     // Обновляем ранг в списке желаний
-                    var status = await _context.ItemStatuses.FindAsync(viewModel.StatusId);
                     if (status?.code == "wishlist")
                     {
                         var wishlistItem = await _context.WishlistItems
@@ -572,13 +591,11 @@ namespace CollectorHub.Controllers
             }
 
             // Если модель невалидна, заново заполняем данные
-            // Получаем поля коллекции
             var collectionFields = await _context.CollectionFields
                 .Include(f => f.field_type)
                 .Where(f => f.collection_id == item.collection_id)
                 .ToListAsync();
 
-            // Получаем опции для полей типа "option"
             var optionFields = collectionFields
                 .Where(f => f.field_type.name == "Варианты")
                 .Select(f => f.field_id)
@@ -589,10 +606,11 @@ namespace CollectorHub.Controllers
                 .GroupBy(o => o.field_id)
                 .ToDictionaryAsync(g => g.Key, g => g.ToList());
 
-            // Заполняем выпадающий список статусов
             ViewData["status_id"] = new SelectList(_context.ItemStatuses, "status_id", "name", viewModel.StatusId);
 
-            // Обновляем модель представления
+            var wishlistStatus = await _context.ItemStatuses.FirstOrDefaultAsync(s => s.code == "wishlist");
+            ViewBag.WishlistStatusId = wishlistStatus?.status_id;
+
             viewModel.CollectionName = item.collection.name;
             viewModel.CollectionFields = collectionFields;
             viewModel.FieldOptions = fieldOptions;

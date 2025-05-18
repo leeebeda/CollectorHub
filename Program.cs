@@ -26,6 +26,8 @@ builder.Services.AddScoped<AuthService>();
 
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddScoped<CollectorHub.Models.DBContext>();
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())

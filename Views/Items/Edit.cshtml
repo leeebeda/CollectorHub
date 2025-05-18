@@ -33,13 +33,29 @@
                 </small>
             </div>
             
-            <div class="form-group mb-3 wishlist-rank" style="display: none;">
+            <div class="form-group mb-3">
                 <label asp-for="WishlistRank" class="control-label">Ранг в списке желаний</label>
-                <input asp-for="WishlistRank" class="form-control" type="number" min="1" max="10" />
+                @{
+                    var isWishlist = Model.StatusId == (ViewBag.WishlistStatusId as int?);
+                    var disabledAttr = isWishlist ? null : "disabled";
+                }
+
+                <input asp-for="WishlistRank"
+                       class="form-control"
+                       type="number"
+                       min="1"
+                       max="10"
+                       disabled="@disabledAttr" />
                 <span asp-validation-for="WishlistRank" class="text-danger"></span>
                 <small class="form-text text-muted">
-                    Ранг определяет приоритет предмета в списке желаний (1 - наивысший приоритет).
+                    Ранг определяет приоритет предмета в списке желаний (1 - наивысший приоритет, 10 - низший). Доступно только для статуса "Вишлист".
                 </small>
+                @if (!ViewData.ModelState.IsValid && (ViewData.ModelState["WishlistRank"]?.Errors.Any() ?? false))
+                {
+                    <div class="alert alert-danger mt-2">
+                        @ViewData.ModelState["WishlistRank"].Errors.First().ErrorMessage
+                    </div>
+                }
             </div>
             
             @if (Model.CollectionFields.Any())
@@ -87,9 +103,10 @@
                                     <option value="">-- Выберите опцию --</option>
                                     @if (Model.FieldOptions.TryGetValue(field.field_id, out var options))
                                     {
+                                        var selectedValue = fieldValue;
                                         foreach (var option in options)
                                         {
-                                            <option value="@option.option_id" selected="@(fieldValue == option.option_id.ToString())">@option.option_text</option>
+                                            <option value="@option.option_id" selected="@(selectedValue == option.option_id.ToString())">@option.option_text</option>
                                         }
                                     }
                                 </select>
@@ -134,7 +151,7 @@
             <div class="card-body">
                 <p>Измените информацию о предмете и значения полей.</p>
                 <p>Поля, отмеченные звездочкой (*), обязательны для заполнения.</p>
-                <p>Если вы выберете статус "Список желаний", вы сможете указать ранг предмета в списке желаний.</p>
+                <p>Ранг в списке желаний доступен только для статуса "Вишлист".</p>
             </div>
         </div>
     </div>

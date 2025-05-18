@@ -26,7 +26,7 @@
 
             <div class="form-group mb-3">
                 <label asp-for="VisibilityId" class="control-label">Видимость</label>
-                <select asp-for="VisibilityId" class="form-control" asp-items="ViewBag.visibility_id">
+                <select asp-for="VisibilityId" class="form-control" asp-items="ViewBag.visibility_id" required>
                     <option value="">-- Выберите видимость --</option>
                 </select>
                 <span asp-validation-for="VisibilityId" class="text-danger"></span>
@@ -62,7 +62,9 @@
             </div>
             <div class="card-body">
                 <p>Создайте коллекцию, чтобы начать добавлять в неё предметы.</p>
-                <p>Вы можете выбрать шаблон, чтобы автоматически создать набор полей для вашей коллекции, или настроить поля вручную позже.</p>
+                <p><strong>Приватная</strong>: только вы сможете видеть эту коллекцию.</p>
+                <p><strong>По ссылке</strong>: доступ по прямой ссылке, которую вы можете отправить другим.</p>
+                <p>Вы можете выбрать шаблон, чтобы автоматически создать набор полей, или настроить поля вручную позже.</p>
                 <p>Вы также можете создать иерархию коллекций, выбрав родительскую коллекцию.</p>
             </div>
         </div>

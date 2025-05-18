@@ -1,4 +1,5 @@
-﻿@model CollectorHub.ViewModels.CollectionFieldViewModel
+﻿@inject CollectorHub.Models.DBContext _context
+@model CollectorHub.ViewModels.CollectionFieldViewModel
 
 @{
     ViewData["Title"] = "Редактирование поля";
@@ -26,7 +27,7 @@
 
                         <div class="col-md-6">
                             <label asp-for="FieldTypeId" class="form-label">Тип поля</label>
-                            <select asp-for="FieldTypeId" class="form-control" asp-items="ViewBag.field_type_id" required>
+                            <select asp-for="FieldTypeId" class="form-control" asp-items="ViewBag.field_type_id" id="fieldTypeSelect" required>
                                 <option value="">-- Выберите тип поля --</option>
                             </select>
                             <span asp-validation-for="FieldTypeId" class="text-danger"></span>
@@ -39,23 +40,27 @@
                         <label asp-for="IsRequired" class="form-check-label">Обязательное поле</label>
                     </div>
 
-                    @if (Model.FieldTypeName == "option")
-                    {
+                    <div id="optionsSection" style="@(Model.FieldTypeName == "Варианты" ? "display: block;" : "display: none;")">
                         <div class="mb-3">
                             <label class="form-label">Варианты выбора</label>
-                            @for (int i = 0; i < Model.Options.Count; i++)
-                            {
-                                <div class="input-group mb-2">
-                                    <input type="text" name="Options[@i]" class="form-control" value="@Model.Options[i]" />
-                                </div>
-                            }
-                            <div class="mt-2">
-                                <a asp-action="AddOption" asp-route-fieldId="@Model.FieldId" asp-route-collectionId="@Model.CollectionId" class="btn btn-sm btn-outline-secondary">
-                                    <i class="bi bi-plus"></i> Добавить вариант
-                                </a>
+                            <div id="optionsContainer">
+                                @for (int i = 0; i < Model.Options.Count; i++)
+                                {
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-text">
+                                            <input type="checkbox" name="DeleteOptions[@i]" value="@Model.Options[i]" />
+                                        </div>
+                                        <input type="hidden" name="OptionIds[@i]" value="@(i < Model.OptionIds.Count ? Model.OptionIds[i] : 0)" />
+                                        <input type="text" name="Options[@i]" class="form-control" value="@Model.Options[i]" required />
+                                    </div>
+                                }
                             </div>
+                            <div id="newOptions"></div>
+                            <button type="button" id="addOptionBtn" class="btn btn-sm btn-outline-secondary mt-2">
+                                <i class="bi bi-plus"></i> Добавить вариант
+                            </button>
                         </div>
-                    }
+                    </div>
 
                     <div class="d-flex justify-content-between mt-3">
                         <button type="submit" class="btn btn-primary">Сохранить</button>
@@ -66,3 +71,39 @@
         </div>
     </div>
 </div>
+
+<script>
+    // Получаем ID типа "Варианты" из серверной логики
+    const optionTypeId = @((await Model.GetFieldTypeIdAsync(_context, "Варианты")));
+
+    const fieldTypeSelect = document.getElementById('fieldTypeSelect');
+    const optionsSection = document.getElementById('optionsSection');
+    const optionsContainer = document.getElementById('optionsContainer');
+    const addOptionBtn = document.getElementById('addOptionBtn');
+    const newOptions = document.getElementById('newOptions');
+
+    // Показываем/скрываем секцию вариантов при выборе типа
+    fieldTypeSelect.addEventListener('change', function() {
+        if (this.value == optionTypeId) {
+            optionsSection.style.display = 'block';
+        } else {
+            optionsSection.style.display = 'none';
+            optionsContainer.innerHTML = ''; // Очищаем существующие варианты
+            newOptions.innerHTML = ''; // Очищаем новые варианты
+        }
+    });
+
+    // Добавляем новое поле для варианта
+    addOptionBtn.addEventListener('click', function() {
+        const newOptionDiv = document.createElement('div');
+        newOptionDiv.className = 'input-group mb-2';
+        newOptionDiv.innerHTML = `
+            <div class="input-group-text">
+                <input type="checkbox" name="DeleteOptions[]" value="new" />
+            </div>
+            <input type="hidden" name="OptionIds[]" value="0" />
+            <input type="text" name="Options[]" class="form-control" placeholder="Введите вариант" required />
+        `;
+        newOptions.appendChild(newOptionDiv);
+    });
+</script>

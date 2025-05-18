@@ -26,7 +26,7 @@
 
             <div class="form-group mb-3">
                 <label asp-for="VisibilityId" class="control-label">Видимость</label>
-                <select asp-for="VisibilityId" class="form-control" asp-items="ViewBag.visibility_id">
+                <select asp-for="VisibilityId" class="form-control" asp-items="ViewBag.visibility_id" required>
                     <option value="">-- Выберите видимость --</option>
                 </select>
                 <span asp-validation-for="VisibilityId" class="text-danger"></span>
@@ -54,6 +54,8 @@
             </div>
             <div class="card-body">
                 <p>Измените информацию о коллекции.</p>
+                <p><strong>Приватная</strong>: только вы сможете видеть эту коллекцию.</p>
+                <p><strong>По ссылке</strong>: доступ по прямой ссылке, которую вы можете отправить другим.</p>
                 <p>Обратите внимание, что шаблон коллекции нельзя изменить после создания, так как это может привести к потере данных.</p>
             </div>
         </div>

@@ -30,13 +30,18 @@ else
                             {
                                 @(item.description.Length > 100 ? item.description.Substring(0, 100) + "..." : item.description)
                             }
+                            else
+                            {
+                                <span>-</span>
+                            }
+                            <br />
+                            <small class="text-muted">Предметов: @item.Items.Count</small>
                         </p>
                         <p class="card-text">
                             <small class="text-muted">
                                 @if (item.template != null)
                                 {
                                     <span>Шаблон: @item.template.name</span>
-
                                     <br />
                                 }
                                 <span>Видимость: @item.visibility.name</span><br />
@@ -51,6 +56,13 @@ else
                         <a asp-action="Details" asp-route-id="@item.collection_id" class="btn btn-info btn-sm">Подробнее</a>
                         <a asp-action="Edit" asp-route-id="@item.collection_id" class="btn btn-primary btn-sm">Редактировать</a>
                         <a asp-action="Delete" asp-route-id="@item.collection_id" class="btn btn-danger btn-sm">Удалить</a>
+                        @if (item.visibility.code == "link")
+                        {
+                            var link = Url.Action("Details", "Collections", new { id = item.collection_id, accessToken = item.collection_id }, Context.Request.Scheme);
+                            <a href="@link" target="_blank" class="btn btn-sm btn-outline-secondary">
+                                <i class="bi bi-link-45deg"></i>
+                            </a>
+                        }
                     </div>
                 </div>
             </div>

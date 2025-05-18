@@ -33,12 +33,29 @@
 
             <div class="form-group mb-3">
                 <label asp-for="WishlistRank" class="control-label">Ранг в списке желаний</label>
-                <input asp-for="WishlistRank" class="form-control" type="number" min="1" max="10" />
+                @{
+                    var isWishlist = Model.StatusId == (ViewBag.WishlistStatusId as int?);
+                    var disabledAttr = isWishlist ? null : "disabled";
+                }
+
+                <input asp-for="WishlistRank"
+                       class="form-control"
+                       type="number"
+                       min="1"
+                       max="10"
+                       disabled="@disabledAttr" />
+
+
                 <span asp-validation-for="WishlistRank" class="text-danger"></span>
                 <small class="form-text text-muted">
-                    Ранг определяет приоритет предмета в списке желаний (1 - наивысший приоритет).
-                    Заполняйте это поле только если статус предмета - "Список желаний".
+                    Ранг определяет приоритет предмета в списке желаний (1 - наивысший приоритет, 10 - низший). Доступно только для статуса "Вишлист".
                 </small>
+                @if (!ViewData.ModelState.IsValid && (ViewData.ModelState["WishlistRank"]?.Errors.Any() ?? false))
+                {
+                    <div class="alert alert-danger mt-2">
+                        @ViewData.ModelState["WishlistRank"].Errors.First().ErrorMessage
+                    </div>
+                }
             </div>
 
             @if (Model.CollectionFields.Any())
@@ -59,20 +76,20 @@
                         @switch (field.field_type.name)
                         {
                             case "Текст":
-                                <textarea name="FieldValues[@field.field_id]" class="form-control" rows="3" @(field.is_required ? "required" : "")></textarea>
+                                <textarea name="FieldValues[@field.field_id]" class="form-control" rows="3" @(field.is_required ? "required" : "")>@(Model.FieldValues.ContainsKey(field.field_id) ? Model.FieldValues[field.field_id] : "")</textarea>
                                 break;
 
                             case "Число":
-                                <input type="number" name="FieldValues[@field.field_id]" class="form-control" step="0.01" @(field.is_required ? "required" : "") />
+                                <input type="number" name="FieldValues[@field.field_id]" class="form-control" step="0.01" value="@(Model.FieldValues.ContainsKey(field.field_id) ? Model.FieldValues[field.field_id] : "")" @(field.is_required ? "required" : "") />
                                 break;
 
                             case "Дата":
-                                <input type="date" name="FieldValues[@field.field_id]" class="form-control" @(field.is_required ? "required" : "") />
+                                <input type="date" name="FieldValues[@field.field_id]" class="form-control" value="@(Model.FieldValues.ContainsKey(field.field_id) ? Model.FieldValues[field.field_id] : "")" @(field.is_required ? "required" : "") />
                                 break;
 
                             case "Да-нет":
                                 <div class="form-check">
-                                    <input type="checkbox" name="FieldValues[@field.field_id]" class="form-check-input" value="true" id="field_@field.field_id" />
+                                    <input type="checkbox" name="FieldValues[@field.field_id]" class="form-check-input" value="true" id="field_@field.field_id" @(Model.FieldValues.ContainsKey(field.field_id) && Model.FieldValues[field.field_id] == "true" ? "checked" : "") />
                                     <label class="form-check-label" for="field_@field.field_id">Да</label>
                                 </div>
                                 break;
@@ -82,9 +99,10 @@
                                     <option value="">-- Выберите опцию --</option>
                                     @if (Model.FieldOptions.TryGetValue(field.field_id, out var options))
                                     {
+                                        var selectedValue = Model.FieldValues.ContainsKey(field.field_id) ? Model.FieldValues[field.field_id] : null;
                                         foreach (var option in options)
                                         {
-                                            <option value="@option.option_id">@option.option_text</option>
+                                            <option value="@option.option_id" selected="@(selectedValue == option.option_id.ToString())">@option.option_text</option>
                                         }
                                     }
                                 </select>
@@ -97,7 +115,7 @@
                                 break;
 
                             default:
-                                <input type="text" name="FieldValues[@field.field_id]" class="form-control" @(field.is_required ? "required" : "") />
+                                <input type="text" name="FieldValues[@field.field_id]" class="form-control" value="@(Model.FieldValues.ContainsKey(field.field_id) ? Model.FieldValues[field.field_id] : "")" @(field.is_required ? "required" : "") />
                                 break;
                         }
 
@@ -129,7 +147,7 @@
             <div class="card-body">
                 <p>Заполните основную информацию о предмете и значения полей.</p>
                 <p>Поля, отмеченные звездочкой (*), обязательны для заполнения.</p>
-                <p>Если вы выберете статус "Список желаний", вы сможете указать ранг предмета в списке желаний.</p>
+                <p>Ранг в списке желаний доступен только для статуса "Вишлист".</p>
             </div>
         </div>
     </div>

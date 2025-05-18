@@ -19,24 +19,52 @@ namespace CollectorHub.Controllers
         }
 
         // GET: Collections
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? accessToken)
         {
-            // Получаем ID текущего пользователя
             var userId = int.Parse(User.FindFirstValue("UserId"));
 
             // Получаем коллекции текущего пользователя
-            var collections = await _context.Collections
+            var userCollections = await _context.Collections
                 .Include(c => c.visibility)
                 .Include(c => c.template)
                 .Include(c => c.parent)
+                .Include(c => c.Items)
                 .Where(c => c.user_id == userId)
                 .ToListAsync();
+
+            // Если передан accessToken, ищем коллекции "По ссылке"
+            List<Collection> accessibleCollections = new List<Collection>();
+            if (!string.IsNullOrEmpty(accessToken))
+            {
+                try
+                {
+                    var collectionId = int.Parse(accessToken); // Предполагаем, что accessToken — это collection_id
+                    var collection = await _context.Collections
+                        .Include(c => c.visibility)
+                        .Include(c => c.template)
+                        .Include(c => c.parent)
+                        .Include(c => c.Items)
+                        .FirstOrDefaultAsync(c => c.collection_id == collectionId && c.visibility.code == "link");
+
+                    if (collection != null && collection.user_id != userId)
+                    {
+                        accessibleCollections.Add(collection);
+                    }
+                }
+                catch (FormatException)
+                {
+                    // Неверный формат accessToken, игнорируем
+                }
+            }
+
+            // Объединяем коллекции пользователя и доступные по ссылке
+            var collections = userCollections.Union(accessibleCollections).ToList();
 
             return View(collections);
         }
 
         // GET: Collections/Details
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, string? accessToken)
         {
             if (id == null)
             {
@@ -49,19 +77,40 @@ namespace CollectorHub.Controllers
                 .Include(c => c.visibility)
                 .Include(c => c.template)
                 .Include(c => c.parent)
-                .Include(c => c.Items) // Загружаем предметы
-                    .ThenInclude(i => i.status) // Загружаем статусы предметов
-                .Include(c => c.CollectionImages) // Загружаем изображения коллекции
-                .FirstOrDefaultAsync(m => m.collection_id == id && m.user_id == userId);
+                .Include(c => c.Items)
+                    .ThenInclude(i => i.status)
+                .Include(c => c.CollectionImages)
+                .FirstOrDefaultAsync(m => m.collection_id == id);
 
             if (collection == null)
             {
                 return NotFound();
             }
 
-            // Загружаем дочерние коллекции
+            // Проверяем доступ
+            bool hasAccess = false;
+            if (collection.user_id == userId)
+            {
+                hasAccess = true; // Владелец всегда имеет доступ
+            }
+            else if (collection.visibility.code == "link")
+            {
+                // Проверяем accessToken
+                if (accessToken != null && accessToken == collection.collection_id.ToString())
+                {
+                    hasAccess = true;
+                }
+            }
+
+            if (!hasAccess)
+            {
+                return Forbid(); // 403 Forbidden
+            }
+
+            // Загружаем дочерние коллекции с подгрузкой Items
             var childCollections = await _context.Collections
-                .Where(c => c.parent_id == id && c.user_id == userId)
+                .Where(c => c.parent_id == id)
+                .Include(c => c.Items) // Добавляем подгрузку Items для дочерних коллекций
                 .ToListAsync();
 
             ViewData["ChildCollections"] = childCollections;
@@ -84,7 +133,14 @@ namespace CollectorHub.Controllers
 
             // Заполняем выпадающие списки
             ViewData["template_id"] = new SelectList(_context.Templates, "template_id", "name");
-            ViewData["visibility_id"] = new SelectList(_context.VisibilityTypes, "visibility_id", "name");
+            ViewData["visibility_id"] = new SelectList(
+                await _context.VisibilityTypes
+                    .Where(v => v.visibility_id == 1 || v.visibility_id == 3) // Только "Приватная" и "По ссылке"
+                    .ToListAsync(),
+                "visibility_id",
+                "name",
+                1 // По умолчанию "Приватная"
+            );
 
             // Получаем список коллекций пользователя для выбора родительской коллекции
             ViewData["parent_id"] = new SelectList(
@@ -99,7 +155,6 @@ namespace CollectorHub.Controllers
             // Если передан parentId, устанавливаем его в модели
             if (parentId.HasValue)
             {
-                // Проверяем, существует ли родительская коллекция и принадлежит ли она текущему пользователю
                 var parentCollection = await _context.Collections
                     .FirstOrDefaultAsync(c => c.collection_id == parentId && c.user_id == userId);
 
@@ -121,7 +176,6 @@ namespace CollectorHub.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    // Создаем новый объект Collection из данных ViewModel
                     var collection = new Collection
                     {
                         name = viewModel.Name,
@@ -135,7 +189,6 @@ namespace CollectorHub.Controllers
                     _context.Add(collection);
                     await _context.SaveChangesAsync();
 
-                    // Если выбран шаблон, копируем поля из шаблона
                     if (collection.template_id.HasValue)
                     {
                         await CopyTemplateFieldsToCollection(collection.template_id.Value, collection.collection_id);
@@ -145,7 +198,6 @@ namespace CollectorHub.Controllers
                 }
                 else
                 {
-                    // Выводим ошибки валидации
                     foreach (var key in ModelState.Keys)
                     {
                         var modelStateEntry = ModelState[key];
@@ -158,19 +210,21 @@ namespace CollectorHub.Controllers
             }
             catch (Exception ex)
             {
-                // Логируем исключение
                 Console.WriteLine($"Exception in Create: {ex.Message}");
                 Console.WriteLine($"Stack trace: {ex.StackTrace}");
-
-                // Добавляем ошибку в ModelState
                 ModelState.AddModelError("", $"Произошла ошибка: {ex.Message}");
             }
 
-            // Если модель невалидна или произошла ошибка, заново заполняем выпадающие списки
-            ViewData["template_id"] = new SelectList(_context.Templates, "template_id", "name", viewModel.TemplateId);
-            ViewData["visibility_id"] = new SelectList(_context.VisibilityTypes, "visibility_id", "name", viewModel.VisibilityId);
-
             var userId = int.Parse(User.FindFirstValue("UserId"));
+            ViewData["template_id"] = new SelectList(_context.Templates, "template_id", "name", viewModel.TemplateId);
+            ViewData["visibility_id"] = new SelectList(
+                await _context.VisibilityTypes
+                    .Where(v => v.visibility_id == 1 || v.visibility_id == 3)
+                    .ToListAsync(),
+                "visibility_id",
+                "name",
+                viewModel.VisibilityId
+            );
             ViewData["parent_id"] = new SelectList(
                 await _context.Collections.Where(c => c.user_id == userId).ToListAsync(),
                 "collection_id",
@@ -222,7 +276,6 @@ namespace CollectorHub.Controllers
                 return NotFound();
             }
 
-            // Создаем модель представления из модели коллекции
             var viewModel = new EditCollectionViewModel
             {
                 Name = collection.name,
@@ -233,7 +286,14 @@ namespace CollectorHub.Controllers
             };
 
             ViewData["template_id"] = new SelectList(_context.Templates, "template_id", "name", collection.template_id);
-            ViewData["visibility_id"] = new SelectList(_context.VisibilityTypes, "visibility_id", "name", collection.visibility_id);
+            ViewData["visibility_id"] = new SelectList(
+                await _context.VisibilityTypes
+                    .Where(v => v.visibility_id == 1 || v.visibility_id == 3)
+                    .ToListAsync(),
+                "visibility_id",
+                "name",
+                collection.visibility_id
+            );
             ViewData["parent_id"] = new SelectList(
                 await _context.Collections.Where(c => c.user_id == userId && c.collection_id != id).ToListAsync(),
                 "collection_id",
@@ -249,7 +309,6 @@ namespace CollectorHub.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, EditCollectionViewModel viewModel)
         {
-            // Проверяем, принадлежит ли коллекция текущему пользователю
             var userId = int.Parse(User.FindFirstValue("UserId"));
             var collection = await _context.Collections
                 .FirstOrDefaultAsync(c => c.collection_id == id && c.user_id == userId);
@@ -263,14 +322,10 @@ namespace CollectorHub.Controllers
             {
                 try
                 {
-                    // Обновляем только те поля, которые можно изменять
                     collection.name = viewModel.Name;
                     collection.description = viewModel.Description;
                     collection.visibility_id = viewModel.VisibilityId;
                     collection.parent_id = viewModel.ParentId;
-
-                    // Не изменяем template_id, так как это может привести к потере данных
-                    // collection.template_id = viewModel.TemplateId;
 
                     _context.Update(collection);
                     await _context.SaveChangesAsync();
@@ -290,9 +345,15 @@ namespace CollectorHub.Controllers
                 }
             }
 
-            // Если модель невалидна, заново заполняем выпадающие списки
             ViewData["template_id"] = new SelectList(_context.Templates, "template_id", "name", viewModel.TemplateId);
-            ViewData["visibility_id"] = new SelectList(_context.VisibilityTypes, "visibility_id", "name", viewModel.VisibilityId);
+            ViewData["visibility_id"] = new SelectList(
+                await _context.VisibilityTypes
+                    .Where(v => v.visibility_id == 1 || v.visibility_id == 3)
+                    .ToListAsync(),
+                "visibility_id",
+                "name",
+                viewModel.VisibilityId
+            );
             ViewData["parent_id"] = new SelectList(
                 await _context.Collections.Where(c => c.user_id == userId && c.collection_id != id).ToListAsync(),
                 "collection_id",
@@ -441,7 +502,7 @@ namespace CollectorHub.Controllers
                 _context.Add(field);
                 await _context.SaveChangesAsync();
 
-                // Если тип поля - "option", создаем опции
+                // Если тип поля - "Варианты", создаем опции
                 var fieldType = await _context.FieldTypes.FirstOrDefaultAsync(ft => ft.field_type_id == model.FieldTypeId);
                 if (fieldType != null && fieldType.name == "Варианты" && model.Options != null)
                 {
@@ -497,14 +558,17 @@ namespace CollectorHub.Controllers
             var fieldTypes = await _context.FieldTypes.ToListAsync();
             ViewData["field_type_id"] = new SelectList(fieldTypes, "field_type_id", "name", field.field_type_id);
 
-            // Получаем опции, если тип поля - "option"
+            // Получаем опции, если тип поля - "Варианты"
             var options = new List<string>();
+            var optionIds = new List<int>();
             if (field.field_type.name == "Варианты")
             {
-                options = await _context.FieldOptions
+                var fieldOptions = await _context.FieldOptions
                     .Where(o => o.field_id == fieldId)
-                    .Select(o => o.option_text)
+                    .Select(o => new { o.option_id, o.option_text })
                     .ToListAsync();
+                options = fieldOptions.Select(o => o.option_text).ToList();
+                optionIds = fieldOptions.Select(o => o.option_id).ToList();
             }
 
             var model = new CollectionFieldViewModel
@@ -515,13 +579,13 @@ namespace CollectorHub.Controllers
                 FieldTypeId = field.field_type_id,
                 FieldTypeName = field.field_type.name,
                 IsRequired = field.is_required,
-                Options = options
+                Options = options,
+                OptionIds = optionIds
             };
 
             return View(model);
         }
 
-        // POST: Collections/EditField
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditField(CollectionFieldViewModel model)
@@ -615,27 +679,63 @@ namespace CollectorHub.Controllers
                 _context.Update(field);
                 await _context.SaveChangesAsync();
 
-                // Если тип поля - "option", обновляем опции
-                var fieldType = await _context.FieldTypes.FirstOrDefaultAsync(ft => ft.field_type_id == model.FieldTypeId);
-                if (fieldType != null && fieldType.name == "Варианты" && model.Options != null)
+                // Обработка вариантов, если тип поля - "Варианты"
+                if (field.field_type.name == "Варианты" && model.Options != null)
                 {
-                    // Удаляем существующие опции
+                    // Получаем существующие опции
                     var existingOptions = await _context.FieldOptions
                         .Where(o => o.field_id == field.field_id)
-                        .ToListAsync();
-                    _context.FieldOptions.RemoveRange(existingOptions);
+                        .ToDictionaryAsync(o => o.option_id, o => o.option_text);
 
-                    // Добавляем новые опции
-                    foreach (var option in model.Options.Where(o => !string.IsNullOrEmpty(o)))
+                    // Определяем, какие опции отмечены для удаления
+                    var optionsToDelete = model.DeleteOptions?.Where(d => d != null).Select(d => d).ToList() ?? new List<string>();
+                    var optionsToKeep = new List<int>();
+
+                    // Обновляем или удаляем существующие опции
+                    for (int i = 0; i < model.OptionIds.Count && i < model.Options.Count; i++)
                     {
-                        var fieldOption = new FieldOption
-                        {
-                            field_id = field.field_id,
-                            option_text = option
-                        };
+                        int optionId = model.OptionIds[i];
+                        string optionText = model.Options[i];
 
-                        _context.Add(fieldOption);
+                        if (!string.IsNullOrEmpty(optionText))
+                        {
+                            if (optionsToDelete.Contains(optionText) && existingOptions.ContainsKey(optionId))
+                            {
+                                var optionToDelete = await _context.FieldOptions.FindAsync(optionId);
+                                if (optionToDelete != null)
+                                {
+                                    _context.FieldOptions.Remove(optionToDelete);
+                                }
+                            }
+                            else if (existingOptions.ContainsKey(optionId))
+                            {
+                                // Обновляем существующий вариант
+                                var option = await _context.FieldOptions.FindAsync(optionId);
+                                if (option != null && option.option_text != optionText)
+                                {
+                                    option.option_text = optionText;
+                                    _context.Update(option);
+                                }
+                                optionsToKeep.Add(optionId);
+                            }
+                            else if (optionId == 0)
+                            {
+                                // Новый вариант
+                                var newOption = new FieldOption
+                                {
+                                    field_id = field.field_id,
+                                    option_text = optionText
+                                };
+                                _context.Add(newOption);
+                            }
+                        }
                     }
+
+                    // Удаляем оставшиеся опции, которые не были обновлены или сохранены
+                    var optionsToRemove = await _context.FieldOptions
+                        .Where(o => o.field_id == field.field_id && !optionsToKeep.Contains(o.option_id))
+                        .ToListAsync();
+                    _context.FieldOptions.RemoveRange(optionsToRemove);
 
                     await _context.SaveChangesAsync();
                 }
