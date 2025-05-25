@@ -30,8 +30,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>rvx5ivqmnz</Fingerprint>
-      <Integrity>OXdQby4/eNSlVkYYgjQHXzT0e+in63lrATY6EzFiYg4=</Integrity>
+      <Fingerprint>ej28r1z5ii</Fingerprint>
+      <Integrity>JjKLdyYaNULWT8NblbEQsEGo9KHX79ZLfnf3dy8fRhw=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\sidebar.css'))</OriginalItemSpec>

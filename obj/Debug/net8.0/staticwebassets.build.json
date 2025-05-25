@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "O/MOMV4JgdpOdXoZpvDJFlZyfyHD6eezCJ8FpApVOkA=",
+  "Hash": "HT8YE7FEOHW/OtRlQPw6bdYv/hiBz1JCgVxqp2x9ym4=",
   "Source": "CollectorHub",
   "BasePath": "_content/CollectorHub",
   "Mode": "Default",
@@ -73,8 +73,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "rvx5ivqmnz",
-      "Integrity": "OXdQby4/eNSlVkYYgjQHXzT0e+in63lrATY6EzFiYg4=",
+      "Fingerprint": "ej28r1z5ii",
+      "Integrity": "JjKLdyYaNULWT8NblbEQsEGo9KHX79ZLfnf3dy8fRhw=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\sidebar.css"
@@ -2133,11 +2133,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"OXdQby4/eNSlVkYYgjQHXzT0e+in63lrATY6EzFiYg4=\""
+          "Value": "\"JjKLdyYaNULWT8NblbEQsEGo9KHX79ZLfnf3dy8fRhw=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 25 May 2025 20:23:50 GMT"
+          "Value": "Sun, 25 May 2025 20:44:03 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2147,12 +2147,12 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-OXdQby4/eNSlVkYYgjQHXzT0e+in63lrATY6EzFiYg4="
+          "Value": "sha256-JjKLdyYaNULWT8NblbEQsEGo9KHX79ZLfnf3dy8fRhw="
         }
       ]
     },
     {
-      "Route": "css/sidebar.rvx5ivqmnz.css",
+      "Route": "css/sidebar.ej28r1z5ii.css",
       "AssetFile": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\css\\sidebar.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -2170,11 +2170,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"OXdQby4/eNSlVkYYgjQHXzT0e+in63lrATY6EzFiYg4=\""
+          "Value": "\"JjKLdyYaNULWT8NblbEQsEGo9KHX79ZLfnf3dy8fRhw=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 25 May 2025 20:23:50 GMT"
+          "Value": "Sun, 25 May 2025 20:44:03 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2184,7 +2184,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "rvx5ivqmnz"
+          "Value": "ej28r1z5ii"
         },
         {
           "Name": "label",
@@ -2192,7 +2192,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-OXdQby4/eNSlVkYYgjQHXzT0e+in63lrATY6EzFiYg4="
+          "Value": "sha256-JjKLdyYaNULWT8NblbEQsEGo9KHX79ZLfnf3dy8fRhw="
         }
       ]
     },

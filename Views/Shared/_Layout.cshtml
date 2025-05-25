@@ -13,25 +13,24 @@
 </head>
 <body>
     <nav>
-        <h2 class="site-title" style="font-size:32px;">CollectorHub</h2>
+        <h2 class="site-title">CollectorHub</h2>
         <a asp-controller="Collections" asp-action="Index" class="collection-nav-btn">Мои коллекции</a>
         @{
             var collections = Context.Items["Collections"] as List<CollectorHub.Models.Collection>;
-            var openCollectionId = TempData["OpenCollectionId"]?.ToString();
         }
         @if (collections != null && collections.Any())
         {
-            <div class="collection-tree">
+            <div class="collection-tree" id="collectionTree">
                 @foreach (var collection in collections.Where(c => c.parent_id == null))
                 {
-                    <details @(openCollectionId == collection.collection_id.ToString() ? "open" : "")>
+                    <details data-collection-id="@collection.collection_id">
                         <summary>
-                            <a asp-controller="Collections" asp-action="Details" asp-route-id="@collection.collection_id" asp-route-openCollectionId="@collection.collection_id">@collection.name</a>
+                            <a asp-controller="Collections" asp-action="Details" asp-route-id="@collection.collection_id">@collection.name</a>
                         </summary>
                         <ul>
                             @foreach (var child in collection.Inverseparent ?? new List<CollectorHub.Models.Collection>())
                             {
-                                <li><a asp-controller="Collections" asp-action="Details" asp-route-id="@child.collection_id" asp-route-openCollectionId="@collection.collection_id">@child.name</a></li>
+                                <li><a asp-controller="Collections" asp-action="Details" asp-route-id="@child.collection_id">@child.name</a></li>
                             }
                         </ul>
                     </details>
@@ -68,6 +67,32 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const collectionTree = document.getElementById('collectionTree');
+            const openCollections = JSON.parse(localStorage.getItem('openCollections') || '{}');
+
+            // Восстанавливаем состояние при загрузке
+            collectionTree.querySelectorAll('details').forEach(detail => {
+                const collectionId = detail.getAttribute('data-collection-id');
+                if (openCollections[collectionId]) {
+                    detail.setAttribute('open', '');
+                }
+            });
+
+            // Сохраняем состояние при клике
+            collectionTree.addEventListener('toggle', function(e) {
+                const detail = e.target;
+                const collectionId = detail.getAttribute('data-collection-id');
+                if (detail.open) {
+                    openCollections[collectionId] = true;
+                } else {
+                    delete openCollections[collectionId];
+                }
+                localStorage.setItem('openCollections', JSON.stringify(openCollections));
+            }, true);
+        });
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
