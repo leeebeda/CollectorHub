@@ -2,6 +2,7 @@ using CollectorHub.Services;
 using CollectorHub.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using CollectorHub.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +42,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthentication();
+app.UseCollectionsMiddleware();
 app.UseAuthorization();
 
 app.MapControllerRoute(

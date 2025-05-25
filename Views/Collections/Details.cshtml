@@ -17,12 +17,10 @@
     <div class="card-body">
         @if (Model.CollectionImages != null && Model.CollectionImages.Count > 0)
         {
-            <div class="row">
+            <div class="collection-images-container">
                 @foreach (var image in Model.CollectionImages.OrderBy(i => i.sort_order))
                 {
-                    <div class="col-md-3 mb-3">
-                        <img src="@image.image_url" alt="Изображение коллекции" class="img-fluid rounded" />
-                    </div>
+                    <img src="@image.image_url" alt="Изображение коллекции" class="collection-image" />
                 }
             </div>
         }
@@ -34,7 +32,7 @@
 </div>
 
 <div class="d-flex justify-content-between align-items-center mb-3">
-    <h1>@Model.name</h1>
+    <h1 style="font-size: 48px;">@Model.name</h1>
     <div>
         <a asp-action="Edit" asp-route-id="@Model.collection_id" class="btn btn-primary"><i class="bi bi-pencil"></i></a>
         <a asp-action="Index" class="btn btn-secondary"><i class="bi bi-arrow-left"></i></a>
@@ -123,7 +121,6 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>Фото</th>
                                     <th>Название</th>
                                     <th>Статус</th>
                                     <th>Дата добавления</th>
@@ -136,16 +133,6 @@
                                     // Получаем главное изображение
                                     var mainImage = item.ItemValueImages?.FirstOrDefault(img => img.sort_order == 0)?.image_url;
                                     <tr>
-                                        <td>
-                                            @if (!string.IsNullOrEmpty(mainImage))
-                                            {
-                                                <img src="@mainImage" alt="Фото предмета" style="width: 50px; height: 50px; object-fit: cover;" class="rounded" />
-                                            }
-                                            else
-                                            {
-                                                <img src="https://via.placeholder.com/50" alt="Нет фото" style="width: 50px; height: 50px; object-fit: cover;" class="rounded" />
-                                            }
-                                        </td>
                                         <td>
                                             <a asp-controller="Items" asp-action="Details" asp-route-id="@item.item_id">@item.name</a>
                                         </td>

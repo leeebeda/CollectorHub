@@ -23,23 +23,14 @@ namespace CollectorHub.Controllers
         public async Task<IActionResult> Index(string? accessToken)
         {
             var userId = int.Parse(User.FindFirstValue("UserId"));
+            var collections = HttpContext.Items["Collections"] as List<Collection>;
 
-            // Получаем коллекции текущего пользователя
-            var userCollections = await _context.Collections
-                .Include(c => c.visibility)
-                .Include(c => c.template)
-                .Include(c => c.parent)
-                .Include(c => c.Items)
-                .Where(c => c.user_id == userId)
-                .ToListAsync();
-
-            // Если передан accessToken, ищем коллекции "По ссылке"
             List<Collection> accessibleCollections = new List<Collection>();
             if (!string.IsNullOrEmpty(accessToken))
             {
                 try
                 {
-                    var collectionId = int.Parse(accessToken); // Предполагаем, что accessToken — это collection_id
+                    var collectionId = int.Parse(accessToken);
                     var collection = await _context.Collections
                         .Include(c => c.visibility)
                         .Include(c => c.template)
@@ -58,18 +49,22 @@ namespace CollectorHub.Controllers
                 }
             }
 
-            // Объединяем коллекции пользователя и доступные по ссылке
-            var collections = userCollections.Union(accessibleCollections).ToList();
-
-            return View(collections);
+            var combinedCollections = collections.Union(accessibleCollections).ToList();
+            return View(combinedCollections);
         }
 
         // GET: Collections/Details
-        public async Task<IActionResult> Details(int? id, string? accessToken)
+        public async Task<IActionResult> Details(int? id, string? accessToken, string? openCollectionId)
         {
             if (id == null)
             {
                 return NotFound();
+            }
+
+            // !!! Сохраняем ID раскрытой коллекции
+            if (!string.IsNullOrEmpty(openCollectionId))
+            {
+                TempData["OpenCollectionId"] = openCollectionId;
             }
 
             var userId = int.Parse(User.FindFirstValue("UserId"));
@@ -88,15 +83,13 @@ namespace CollectorHub.Controllers
                 return NotFound();
             }
 
-            // Проверяем доступ
             bool hasAccess = false;
             if (collection.user_id == userId)
             {
-                hasAccess = true; // Владелец всегда имеет доступ
+                hasAccess = true;
             }
             else if (collection.visibility.code == "link")
             {
-                // Проверяем accessToken
                 if (accessToken != null && accessToken == collection.collection_id.ToString())
                 {
                     hasAccess = true;
@@ -105,18 +98,16 @@ namespace CollectorHub.Controllers
 
             if (!hasAccess)
             {
-                return Forbid(); // 403 Forbidden
+                return Forbid();
             }
 
-            // Загружаем дочерние коллекции с подгрузкой Items
             var childCollections = await _context.Collections
                 .Where(c => c.parent_id == id)
-                .Include(c => c.Items) // Добавляем подгрузку Items для дочерних коллекций
+                .Include(c => c.Items)
                 .ToListAsync();
 
             ViewData["ChildCollections"] = childCollections;
 
-            // Загружаем поля коллекции
             var collectionFields = await _context.CollectionFields
                 .Include(f => f.field_type)
                 .Where(f => f.collection_id == id)
