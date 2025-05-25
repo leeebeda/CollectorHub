@@ -5,20 +5,12 @@
     ViewData["Title"] = Model.name;
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h1>@Model.name</h1>
-    <div>
-        <a asp-action="Edit" asp-route-id="@Model.collection_id" class="btn btn-primary">Редактировать</a>
-        <a asp-action="Index" class="btn btn-secondary">Назад к списку</a>
-    </div>
-</div>
-
 <div class="card mb-4">
     <div class="card-header">
         <div class="d-flex justify-content-between align-items-center">
             <h5 class="mb-0">Изображения коллекции</h5>
             <a asp-controller="Images" asp-action="AddCollectionImage" asp-route-id="@Model.collection_id" class="btn btn-sm btn-primary">
-                Управление изображениями
+                <i class="bi bi-image"></i>
             </a>
         </div>
     </div>
@@ -41,6 +33,14 @@
     </div>
 </div>
 
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>@Model.name</h1>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.collection_id" class="btn btn-primary"><i class="bi bi-pencil"></i></a>
+        <a asp-action="Index" class="btn btn-secondary"><i class="bi bi-arrow-left"></i></a>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-md-8">
         <div class="card mb-4">
@@ -48,7 +48,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Поля коллекции</h5>
                     <a asp-controller="Collections" asp-action="AddField" asp-route-collectionId="@Model.collection_id" class="btn btn-success">
-                        <i class="bi bi-plus-circle"></i> Добавить поле
+                        <i class="bi bi-plus-circle"></i>
                     </a>
                 </div>
             </div>
@@ -107,12 +107,12 @@
         <div class="card mb-4">
             <div class="card-header">
                 <div class="d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Предметы коллекции</h5>
+                    <h5 class="mb-0">Последние предметы</h5>
                     <div>
                         <a asp-controller="Items" asp-action="Create" asp-route-collectionId="@Model.collection_id" class="btn btn-success me-2">
-                            <i class="bi bi-plus-circle"></i> Добавить предмет
+                            <i class="bi bi-plus-circle"></i>
                         </a>
-                        <a asp-controller="Items" asp-action="Index" asp-route-collectionId="@Model.collection_id" class="btn btn-info">Все предметы</a>
+                        <a asp-controller="Items" asp-action="Index" asp-route-collectionId="@Model.collection_id" class="btn btn-info"><i class="bi bi-list-ul"></i></a>
                     </div>
                 </div>
             </div>
@@ -123,6 +123,7 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
+                                    <th>Фото</th>
                                     <th>Название</th>
                                     <th>Статус</th>
                                     <th>Дата добавления</th>
@@ -130,9 +131,21 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var item in Model.Items)
+                                @foreach (var item in Model.Items.OrderByDescending(i => i.created_at).Take(5))
                                 {
+                                    // Получаем главное изображение
+                                    var mainImage = item.ItemValueImages?.FirstOrDefault(img => img.sort_order == 0)?.image_url;
                                     <tr>
+                                        <td>
+                                            @if (!string.IsNullOrEmpty(mainImage))
+                                            {
+                                                <img src="@mainImage" alt="Фото предмета" style="width: 50px; height: 50px; object-fit: cover;" class="rounded" />
+                                            }
+                                            else
+                                            {
+                                                <img src="https://via.placeholder.com/50" alt="Нет фото" style="width: 50px; height: 50px; object-fit: cover;" class="rounded" />
+                                            }
+                                        </td>
                                         <td>
                                             <a asp-controller="Items" asp-action="Details" asp-route-id="@item.item_id">@item.name</a>
                                         </td>
@@ -229,7 +242,7 @@
                     <p class="text-center">У этой коллекции нет дочерних коллекций.</p>
                     <div class="text-center">
                         <a asp-action="Create" asp-route-parentId="@Model.collection_id" class="btn btn-success">
-                            <i class="bi bi-plus-circle"></i> Создать дочернюю коллекцию
+                            <i class="bi bi-plus-circle"></i>
                         </a>
                     </div>
                 }

@@ -9,6 +9,7 @@ D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\Col
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\CollectorHub.pdb
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\Azure.Core.dll
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\Azure.Identity.dll
+D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\BCrypt.Net-Next.dll
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\EntityFramework.SqlServer.dll
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\EntityFramework.dll
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\Humanizer.dll
@@ -43,10 +44,14 @@ D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\Col
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.dll
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\Microsoft.Extensions.DependencyModel.dll
+D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\Microsoft.Extensions.Diagnostics.Abstractions.dll
+D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\Microsoft.Extensions.Hosting.Abstractions.dll
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\Microsoft.Extensions.Logging.dll
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\Microsoft.Extensions.ObjectPool.dll
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\Microsoft.Extensions.Primitives.dll
+D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\Microsoft.Extensions.WebEncoders.dll
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\Microsoft.Identity.Client.dll
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\Microsoft.Identity.Client.Extensions.Msal.dll
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
@@ -88,7 +93,9 @@ D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\Col
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\System.Memory.Data.dll
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\System.Reflection.MetadataLoadContext.dll
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\System.Runtime.Caching.dll
+D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\System.Security.Cryptography.Pkcs.dll
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\System.Security.Cryptography.ProtectedData.dll
+D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\System.Security.Cryptography.Xml.dll
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\System.Text.Encodings.Web.dll
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\System.Text.Json.dll
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\af\Humanizer.resources.dll
@@ -255,6 +262,7 @@ D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\Col
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
+D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\obj\Debug\net8.0\CollectorHub.csproj.AssemblyReference.cache
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\obj\Debug\net8.0\CollectorHub.GeneratedMSBuildEditorConfig.editorconfig
@@ -264,6 +272,7 @@ D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\Col
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\obj\Debug\net8.0\CollectorHub.MvcApplicationPartsAssemblyInfo.cache
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\obj\Debug\net8.0\CollectorHub.RazorAssemblyInfo.cache
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\obj\Debug\net8.0\CollectorHub.RazorAssemblyInfo.cs
+D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\obj\Debug\net8.0\CollectorHub.sourcelink.json
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\obj\Debug\net8.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\obj\Debug\net8.0\scopedcss\bundle\CollectorHub.styles.css
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\obj\Debug\net8.0\scopedcss\projectbundle\CollectorHub.bundle.scp.css
@@ -283,11 +292,3 @@ D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\Col
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\obj\Debug\net8.0\CollectorHub.pdb
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\obj\Debug\net8.0\CollectorHub.genruntimeconfig.cache
 D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\obj\Debug\net8.0\ref\CollectorHub.dll
-D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\BCrypt.Net-Next.dll
-D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\Microsoft.Extensions.Diagnostics.Abstractions.dll
-D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\Microsoft.Extensions.Hosting.Abstractions.dll
-D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\Microsoft.Extensions.ObjectPool.dll
-D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\Microsoft.Extensions.WebEncoders.dll
-D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\System.Security.Cryptography.Pkcs.dll
-D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\System.Security.Cryptography.Xml.dll
-D:\Вероника\Studying\Второй курс\Курсач\CollectorHub\CollectorHub\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll

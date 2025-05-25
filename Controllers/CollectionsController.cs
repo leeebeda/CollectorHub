@@ -303,6 +303,8 @@ namespace CollectorHub.Controllers
                 collection.parent_id
             );
 
+            ViewData["CollectionId"] = id;
+
             return View(viewModel);
         }
 

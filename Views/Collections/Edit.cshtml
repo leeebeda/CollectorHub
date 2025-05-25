@@ -41,7 +41,7 @@
 
             <div class="form-group mb-3">
                 <input type="submit" value="Сохранить" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-secondary">Назад к списку</a>
+                <a asp-action="Details" asp-route-id="@ViewData["CollectionId"]" class="btn btn-secondary">Назад к коллекции</a>
             </div>
         </form>
     </div>

@@ -9,7 +9,6 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     .AddCookie(options =>
     {
         options.LoginPath = "/Account/Login";
-        options.LogoutPath = "/Account/Logout";
         options.AccessDeniedPath = "/Account/AccessDenied";
     });
 
@@ -32,8 +31,7 @@ var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseExceptionHandler("/Collections"); // Перенаправляем на Collections вместо Home
     app.UseHsts();
 }
 
@@ -47,6 +45,23 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Collections}/{action=Index}/{id?}");
+
+app.Use(async (context, next) =>
+{
+    if (context.Request.Path == "/")
+    {
+        if (context.User.Identity?.IsAuthenticated ?? false)
+        {
+            context.Response.Redirect("/Collections");
+        }
+        else
+        {
+            context.Response.Redirect("/Account/Login");
+        }
+        return;
+    }
+    await next();
+});
 
 app.Run();

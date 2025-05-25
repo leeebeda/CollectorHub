@@ -40,12 +40,12 @@ namespace CollectorHub.Controllers
 
             // Создаем клеймы для пользователя
             var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, user.username),
-                new Claim(ClaimTypes.Email, user.email),
-                new Claim("UserId", user.user_id.ToString()),
-                new Claim("Role", user.role_id.ToString())
-            };
+    {
+        new Claim(ClaimTypes.Name, user.username),
+        new Claim(ClaimTypes.Email, user.email),
+        new Claim("UserId", user.user_id.ToString()),
+        new Claim("Role", user.role_id.ToString())
+    };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var authProperties = new AuthenticationProperties
@@ -58,7 +58,7 @@ namespace CollectorHub.Controllers
                 new ClaimsPrincipal(claimsIdentity),
                 authProperties);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Collections"); // Изменено на Collections
         }
 
         [HttpGet]
@@ -79,7 +79,26 @@ namespace CollectorHub.Controllers
                 var user = await _authService.RegisterAsync(model.Email, model.Username, model.Password);
 
                 // Автоматически входим после регистрации
-                return RedirectToAction("Login");
+                var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, user.username),
+            new Claim(ClaimTypes.Email, user.email),
+            new Claim("UserId", user.user_id.ToString()),
+            new Claim("Role", user.role_id.ToString())
+        };
+
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var authProperties = new AuthenticationProperties
+                {
+                    IsPersistent = false // Можно сделать опциональным, как в Login
+                };
+
+                await HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity),
+                    authProperties);
+
+                return RedirectToAction("Index", "Collections"); // Перенаправляем сразу на Collections
             }
             catch (Exception ex)
             {
@@ -94,7 +113,7 @@ namespace CollectorHub.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         [HttpGet]

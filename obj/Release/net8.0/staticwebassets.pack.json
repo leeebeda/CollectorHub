@@ -1,0 +1,373 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\obj\\Release\\net8.0\\scopedcss\\projectbundle\\CollectorHub.bundle.scp.css",
+      "PackagePath": "staticwebassets\\CollectorHub.5tv5die8yi.bundle.scp.css"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\favicon.ico",
+      "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\js\\site.js",
+      "PackagePath": "staticwebassets\\js\\site.js"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\LICENSE",
+      "PackagePath": "staticwebassets\\lib\\bootstrap"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css.map"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js.map"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\LICENSE.md"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.js"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.min.js"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.js"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\jquery\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery\\LICENSE.txt"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.js"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.js"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\collections\\11\\2c4fc779-7cd3-4d7c-8bc8-b01cd599cfd1.jpg",
+      "PackagePath": "staticwebassets\\uploads\\collections\\11\\2c4fc779-7cd3-4d7c-8bc8-b01cd599cfd1.jpg"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\collections\\11\\3abf264d-1652-4b48-a37d-ab319023a156.jpg",
+      "PackagePath": "staticwebassets\\uploads\\collections\\11\\3abf264d-1652-4b48-a37d-ab319023a156.jpg"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\collections\\11\\5c3d4c40-f10e-421a-bd00-ffd08d3ee417.jpg",
+      "PackagePath": "staticwebassets\\uploads\\collections\\11\\5c3d4c40-f10e-421a-bd00-ffd08d3ee417.jpg"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\collections\\11\\9ace7d54-c63b-4fe2-b306-115604948c9f.jpg",
+      "PackagePath": "staticwebassets\\uploads\\collections\\11\\9ace7d54-c63b-4fe2-b306-115604948c9f.jpg"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\collections\\21\\382ce109-33c1-47f2-a6d8-e193b09040f5.png",
+      "PackagePath": "staticwebassets\\uploads\\collections\\21\\382ce109-33c1-47f2-a6d8-e193b09040f5.png"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\collections\\21\\c9db1d3c-61eb-4139-9cae-8370661eb53f.jpg",
+      "PackagePath": "staticwebassets\\uploads\\collections\\21\\c9db1d3c-61eb-4139-9cae-8370661eb53f.jpg"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\collections\\22\\4bb2e6e5-d90c-4f4a-bace-13f335e96471.jpg",
+      "PackagePath": "staticwebassets\\uploads\\collections\\22\\4bb2e6e5-d90c-4f4a-bace-13f335e96471.jpg"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\collections\\22\\508e12e0-3920-4708-be96-fc32d5bc8262.jpg",
+      "PackagePath": "staticwebassets\\uploads\\collections\\22\\508e12e0-3920-4708-be96-fc32d5bc8262.jpg"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\collections\\25\\02ceafbd-8066-46df-8b17-b50a14a2d99a.png",
+      "PackagePath": "staticwebassets\\uploads\\collections\\25\\02ceafbd-8066-46df-8b17-b50a14a2d99a.png"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\collections\\25\\8f3bcc33-e020-4a80-9c15-de04d9613cff.jpg",
+      "PackagePath": "staticwebassets\\uploads\\collections\\25\\8f3bcc33-e020-4a80-9c15-de04d9613cff.jpg"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\collections\\28\\0c192eea-51ae-47f2-878e-bf6d239a8a44.jpg",
+      "PackagePath": "staticwebassets\\uploads\\collections\\28\\0c192eea-51ae-47f2-878e-bf6d239a8a44.jpg"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\collections\\28\\4c59854e-0c73-4334-935f-25d28ea27d09.jpg",
+      "PackagePath": "staticwebassets\\uploads\\collections\\28\\4c59854e-0c73-4334-935f-25d28ea27d09.jpg"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\collections\\28\\797d2986-2986-4a9e-9293-e636e9a38deb.jpg",
+      "PackagePath": "staticwebassets\\uploads\\collections\\28\\797d2986-2986-4a9e-9293-e636e9a38deb.jpg"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\collections\\28\\fdb979c1-9c88-4cb9-a226-4bd1ae7947f7.jpg",
+      "PackagePath": "staticwebassets\\uploads\\collections\\28\\fdb979c1-9c88-4cb9-a226-4bd1ae7947f7.jpg"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\collections\\4\\224cb99b-6a65-4787-a5a9-cf186d0508d4.jpg",
+      "PackagePath": "staticwebassets\\uploads\\collections\\4\\224cb99b-6a65-4787-a5a9-cf186d0508d4.jpg"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\collections\\4\\55b6aa4f-e370-41ad-bd14-71c98820be05.jpg",
+      "PackagePath": "staticwebassets\\uploads\\collections\\4\\55b6aa4f-e370-41ad-bd14-71c98820be05.jpg"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\items\\11\\57\\7b846cc1-63aa-4633-b8db-e1ce49a91678.png",
+      "PackagePath": "staticwebassets\\uploads\\items\\11\\57\\7b846cc1-63aa-4633-b8db-e1ce49a91678.png"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\items\\15\\73\\35765b45-f337-43ac-9cf8-469f9e5323df.png",
+      "PackagePath": "staticwebassets\\uploads\\items\\15\\73\\35765b45-f337-43ac-9cf8-469f9e5323df.png"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\items\\15\\73\\75754bfc-7747-46ee-9d8e-85178a26c082.jpg",
+      "PackagePath": "staticwebassets\\uploads\\items\\15\\73\\75754bfc-7747-46ee-9d8e-85178a26c082.jpg"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\items\\19\\79\\0178f73e-6a1d-4ae9-9002-2df0b53c3601.jpg",
+      "PackagePath": "staticwebassets\\uploads\\items\\19\\79\\0178f73e-6a1d-4ae9-9002-2df0b53c3601.jpg"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\items\\19\\79\\3de136d5-8987-4a13-b49c-acff8455fc43.png",
+      "PackagePath": "staticwebassets\\uploads\\items\\19\\79\\3de136d5-8987-4a13-b49c-acff8455fc43.png"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\items\\1\\20\\6c94b583-e2c2-4eba-a0e3-5ac0dd2cff30.jpg",
+      "PackagePath": "staticwebassets\\uploads\\items\\1\\20\\6c94b583-e2c2-4eba-a0e3-5ac0dd2cff30.jpg"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\items\\22\\85\\b7130964-7b8a-430d-8b1c-c33dc54bf145.png",
+      "PackagePath": "staticwebassets\\uploads\\items\\22\\85\\b7130964-7b8a-430d-8b1c-c33dc54bf145.png"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\items\\24\\99\\11a11950-edce-40a4-a148-560817148e0a.jpg",
+      "PackagePath": "staticwebassets\\uploads\\items\\24\\99\\11a11950-edce-40a4-a148-560817148e0a.jpg"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\items\\2\\36\\79760a54-c080-41ca-b998-f4ce53db8032.png",
+      "PackagePath": "staticwebassets\\uploads\\items\\2\\36\\79760a54-c080-41ca-b998-f4ce53db8032.png"
+    },
+    {
+      "Id": "D:\\Вероника\\Studying\\Второй курс\\Курсач\\CollectorHub\\CollectorHub\\wwwroot\\uploads\\items\\2\\37\\c62ec3cb-c619-4fb2-89c6-b89d3ef3a7aa.jpg",
+      "PackagePath": "staticwebassets\\uploads\\items\\2\\37\\c62ec3cb-c619-4fb2-89c6-b89d3ef3a7aa.jpg"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\staticwebassets\\msbuild.CollectorHub.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\staticwebassets\\msbuild.CollectorHub.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\staticwebassets\\msbuild.build.CollectorHub.props",
+      "PackagePath": "build\\CollectorHub.props"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.CollectorHub.props",
+      "PackagePath": "buildMultiTargeting\\CollectorHub.props"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\staticwebassets\\msbuild.buildTransitive.CollectorHub.props",
+      "PackagePath": "buildTransitive\\CollectorHub.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
