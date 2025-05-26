@@ -15,13 +15,13 @@
             <input type="hidden" asp-for="ItemId" />
             <input type="hidden" asp-for="CollectionId" />
             <input type="hidden" asp-for="CollectionName" />
-            
+
             <div class="form-group mb-3">
                 <label asp-for="Name" class="control-label">Название предмета</label>
                 <input asp-for="Name" class="form-control" required />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            
+
             <div class="form-group mb-3">
                 <label asp-for="StatusId" class="control-label">Статус</label>
                 <select asp-for="StatusId" class="form-control" asp-items="ViewBag.status_id" required>
@@ -32,7 +32,7 @@
                     Статус определяет, доступен ли предмет, находится ли в доставке, предзаказе или списке желаний.
                 </small>
             </div>
-            
+
             <div class="form-group mb-3">
                 <label asp-for="WishlistRank" class="control-label">Ранг в списке желаний</label>
                 @{
@@ -57,11 +57,11 @@
                     </div>
                 }
             </div>
-            
+
             @if (Model.CollectionFields.Any())
             {
                 <h4 class="mt-4 mb-3">Поля предмета</h4>
-                
+
                 @foreach (var field in Model.CollectionFields)
                 {
                     <div class="form-group mb-3">
@@ -72,32 +72,32 @@
                                 <span class="text-danger">*</span>
                             }
                         </label>
-                        
+
                         @{
                             var fieldValue = Model.FieldValues.ContainsKey(field.field_id) ? Model.FieldValues[field.field_id] : null;
                         }
-                        
+
                         @switch (field.field_type.name)
                         {
                             case "Текст":
                                 <textarea name="FieldValues[@field.field_id]" class="form-control" rows="3" @(field.is_required ? "required" : "")>@fieldValue</textarea>
                                 break;
-                                
+
                             case "Число":
                                 <input type="number" name="FieldValues[@field.field_id]" class="form-control" step="1" value="@fieldValue" @(field.is_required ? "required" : "") />
                                 break;
-                                
+
                             case "Дата":
                                 <input type="date" name="FieldValues[@field.field_id]" class="form-control" value="@fieldValue" @(field.is_required ? "required" : "") />
                                 break;
-                                
+
                             case "Да-нет":
                                 <div class="form-check">
                                     <input type="checkbox" name="FieldValues[@field.field_id]" class="form-check-input" value="true" id="field_@field.field_id" @(fieldValue == "True" ? "checked" : "") />
                                     <label class="form-check-label" for="field_@field.field_id">Да</label>
                                 </div>
                                 break;
-                                
+
                             case "Варианты":
                                 <select name="FieldValues[@field.field_id]" class="form-control" @(field.is_required ? "required" : "")>
                                     <option value="">-- Выберите опцию --</option>
@@ -111,18 +111,18 @@
                                     }
                                 </select>
                                 break;
-                                
+
                             case "Фото":
                                 <div class="alert alert-info">
                                     Управление изображениями доступно на странице деталей предмета.
                                 </div>
                                 break;
-                                
+
                             default:
                                 <input type="text" name="FieldValues[@field.field_id]" class="form-control" value="@fieldValue" @(field.is_required ? "required" : "") />
                                 break;
                         }
-                        
+
                         @if (field.is_required)
                         {
                             <div class="text-danger field-validation-error" data-valmsg-for="FieldValues[@field.field_id]" data-valmsg-replace="true"></div>
@@ -136,10 +136,11 @@
                     У этой коллекции нет полей. Вы можете добавить поля в настройках коллекции.
                 </div>
             }
-            
+
             <div class="form-group mt-4">
                 <input type="submit" value="Сохранить" class="btn btn-primary" />
-                <a asp-action="Details" asp-route-id="@Model.ItemId" class="btn btn-secondary">Назад к деталям</a>
+                <!-- !!! Заменили ссылку на кнопку с динамическим возвратом -->
+                <button type="button" onclick="window.history.back()" class="btn btn-secondary">Назад</button>
             </div>
         </form>
     </div>
@@ -158,5 +159,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

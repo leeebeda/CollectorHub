@@ -9,7 +9,7 @@
     <div>
         <a asp-action="Edit" asp-route-id="@Model.Item.item_id" class="btn btn-primary">Редактировать</a>
         <a asp-action="Delete" asp-route-id="@Model.Item.item_id" class="btn btn-danger">Удалить</a>
-        <a asp-action="Index" asp-route-collectionId="@Model.Item.collection_id" class="btn btn-secondary">Назад к списку</a>
+        <button type="button" onclick="window.history.back()" class="btn btn-secondary">Назад</button>
     </div>
 </div>
 

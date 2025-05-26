@@ -42,5 +42,6 @@
 <form asp-action="Delete">
     <input type="hidden" asp-for="item_id" />
     <input type="submit" value="Удалить" class="btn btn-danger" />
-    <a asp-action="Index" asp-route-collectionId="@Model.collection_id" class="btn btn-secondary">Отмена</a>
+    <!-- !!! Заменили ссылку на кнопку с динамическим возвратом -->
+    <button type="button" onclick="window.history.back()" class="btn btn-secondary">Отмена</button>
 </form>

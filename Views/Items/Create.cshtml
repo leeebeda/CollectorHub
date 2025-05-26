@@ -44,8 +44,6 @@
                        min="1"
                        max="10"
                        disabled="@disabledAttr" />
-
-
                 <span asp-validation-for="WishlistRank" class="text-danger"></span>
                 <small class="form-text text-muted">
                     Ранг определяет приоритет предмета в списке желаний (1 - наивысший приоритет, 10 - низший). Доступно только для статуса "Вишлист".
@@ -135,7 +133,8 @@
 
             <div class="form-group mt-4">
                 <input type="submit" value="Создать" class="btn btn-primary" />
-                <a asp-action="Index" asp-route-collectionId="@Model.CollectionId" class="btn btn-secondary">Назад к списку</a>
+                <!-- !!! Заменили ссылку на кнопку с динамическим возвратом -->
+                <button type="button" onclick="window.history.back()" class="btn btn-secondary">Назад</button>
             </div>
         </form>
     </div>

@@ -115,7 +115,7 @@ nav {
 }
 
 .greeting-text {
-    font-size: 16px; /* !!! Увеличили шрифт приветствия */
+    font-size: 20px; /* !!! Увеличили шрифт приветствия */
     color: #333;
 }
 
@@ -157,3 +157,93 @@ h1 {
     flex-shrink: 0;
     border-radius: 5px;
 }
+
+/* Стили для статусов */
+.status-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 1.35rem;
+}
+
+    .status-icon.status-available i {
+        color: #28a745; /* Зелёный для "В наличии" */
+    }
+
+    .status-icon.status-delivery i {
+        color: #17a2b8; /* Синий для "В пути" */
+    }
+
+    .status-icon.status-pre-order i {
+        color: #ffc107; /* Жёлтый для "Предзаказ" */
+    }
+
+    .status-icon.status-wishlist i {
+        color: #dc3545; /* Красный для "Вишлист" */
+    }
+
+/* Стили для фильтров по статусу */
+.status-filter {
+    display: flex;
+    gap: 10px;
+}
+
+.status-filter-icon {
+    font-size: 1.5rem; /* Установлено тобой */
+    color: #6c757d; /* Серый по умолчанию */
+    text-decoration: none;
+}
+
+    .status-filter-icon.active {
+        color: inherit; /* Цвет определяется классом статуса */
+    }
+
+    .status-filter-icon.status-available.active i {
+        color: #28a745;
+    }
+
+    .status-filter-icon.status-delivery.active i {
+        color: #17a2b8;
+    }
+
+    .status-filter-icon.status-pre-order.active i {
+        color: #ffc107;
+    }
+
+    .status-filter-icon.status-wishlist.active i {
+        color: #dc3545;
+    }
+
+    .status-filter-icon:hover {
+        color: #000;
+    }
+
+/* Стили для карточек предметов */
+.item-card .card {
+    height: 100%;
+}
+
+.item-card .card-body {
+    padding: 0.5rem;
+}
+
+/* !!! Добавил стиль для названия */
+.item-card .card-title {
+    font-size: 24px;
+    margin-bottom: 0.25rem;
+}
+
+/* !!! Стили для кнопки "Редактировать" */
+.action-buttons {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+}
+
+    .action-buttons .btn {
+        padding: 0.25rem 0.5rem;
+    }
+
+        .action-buttons .btn i {
+            font-size: 1.2rem; /* Увеличили размер иконки */
+        }

@@ -8,15 +8,16 @@ using System.Security.Claims;
 
 namespace CollectorHub.Controllers
 {
-    [Authorize] // Требует аутентификации для всех действий
+    [Authorize]
     public class CollectionsController : Controller
     {
         private readonly DBContext _context;
         private readonly IWebHostEnvironment _environment;
 
-        public CollectionsController(DBContext context)
+        public CollectionsController(DBContext context, IWebHostEnvironment environment)
         {
             _context = context;
+            _environment = environment; // !!! Добавили инициализацию _environment
         }
 
         // GET: Collections
@@ -54,17 +55,11 @@ namespace CollectorHub.Controllers
         }
 
         // GET: Collections/Details
-        public async Task<IActionResult> Details(int? id, string? accessToken, string? openCollectionId)
+        public async Task<IActionResult> Details(int? id, string? accessToken)
         {
             if (id == null)
             {
                 return NotFound();
-            }
-
-            // !!! Сохраняем ID раскрытой коллекции
-            if (!string.IsNullOrEmpty(openCollectionId))
-            {
-                TempData["OpenCollectionId"] = openCollectionId;
             }
 
             var userId = int.Parse(User.FindFirstValue("UserId"));
@@ -123,28 +118,24 @@ namespace CollectorHub.Controllers
         {
             var userId = int.Parse(User.FindFirstValue("UserId"));
 
-            // Заполняем выпадающие списки
             ViewData["template_id"] = new SelectList(_context.Templates, "template_id", "name");
             ViewData["visibility_id"] = new SelectList(
                 await _context.VisibilityTypes
-                    .Where(v => v.visibility_id == 1 || v.visibility_id == 3) // Только "Приватная" и "По ссылке"
+                    .Where(v => v.visibility_id == 1 || v.visibility_id == 3)
                     .ToListAsync(),
                 "visibility_id",
                 "name",
-                1 // По умолчанию "Приватная"
+                1
             );
 
-            // Получаем список коллекций пользователя для выбора родительской коллекции
             ViewData["parent_id"] = new SelectList(
                 await _context.Collections.Where(c => c.user_id == userId).ToListAsync(),
                 "collection_id",
                 "name"
             );
 
-            // Создаем модель представления
             var viewModel = new CreateCollectionViewModel();
 
-            // Если передан parentId, устанавливаем его в модели
             if (parentId.HasValue)
             {
                 var parentCollection = await _context.Collections
@@ -183,7 +174,7 @@ namespace CollectorHub.Controllers
 
                     if (collection.template_id.HasValue)
                     {
-                        await CopyTemplateFieldsToCollection(collection.template_id.Value, 
+                        await CopyTemplateFieldsToCollection(collection.template_id.Value,
                             collection.collection_id);
                     }
 
@@ -228,7 +219,6 @@ namespace CollectorHub.Controllers
             return View(viewModel);
         }
 
-        // Метод для копирования полей из шаблона в коллекцию
         private async Task CopyTemplateFieldsToCollection(int templateId, int collectionId)
         {
             var templateFields = await _context.TemplateFields
@@ -476,7 +466,7 @@ namespace CollectorHub.Controllers
             _context.FieldOptions.RemoveRange(fieldOptions);
             _context.CollectionFields.RemoveRange(collectionFields);
 
-            // 7. Удаляем изображения коллекции и связанные файлы !! Новая секция
+            // 7. Удаляем изображения коллекции и связанные файлы
             var collectionImages = await _context.CollectionImages
                 .Where(ci => ci.collection_id == id)
                 .ToListAsync();
@@ -485,7 +475,6 @@ namespace CollectorHub.Controllers
             {
                 try
                 {
-                    // Удаляем файл
                     var filePath = Path.Combine(_environment.WebRootPath, image.image_url.TrimStart('/'));
                     if (System.IO.File.Exists(filePath))
                     {
@@ -494,12 +483,10 @@ namespace CollectorHub.Controllers
                 }
                 catch (Exception ex)
                 {
-                    // Логируем ошибку, но продолжаем удаление
-                    // Можно добавить логирование, например, через ILogger
                     Console.WriteLine($"Ошибка при удалении файла {image.image_url}: {ex.Message}");
                 }
             }
-            _context.CollectionImages.RemoveRange(collectionImages); // !! Удаляем записи из базы
+            _context.CollectionImages.RemoveRange(collectionImages);
 
             // 8. Удаляем саму коллекцию
             _context.Collections.Remove(collection);
@@ -519,7 +506,6 @@ namespace CollectorHub.Controllers
         {
             var userId = int.Parse(User.FindFirstValue("UserId"));
 
-            // Проверяем, принадлежит ли коллекция текущему пользователю
             var collection = await _context.Collections
                 .FirstOrDefaultAsync(c => c.collection_id == collectionId && c.user_id == userId);
 
@@ -528,7 +514,6 @@ namespace CollectorHub.Controllers
                 return NotFound();
             }
 
-            // Получаем типы полей
             var fieldTypes = await _context.FieldTypes.ToListAsync();
             ViewData["field_type_id"] = new SelectList(fieldTypes, "field_type_id", "name");
 
@@ -546,7 +531,6 @@ namespace CollectorHub.Controllers
         {
             var userId = int.Parse(User.FindFirstValue("UserId"));
 
-            // Проверяем, принадлежит ли коллекция текущему пользователю
             var collection = await _context.Collections
                 .FirstOrDefaultAsync(c => c.collection_id == model.CollectionId && c.user_id == userId);
 
@@ -555,7 +539,6 @@ namespace CollectorHub.Controllers
                 return NotFound();
             }
 
-            // Проверка, является ли тип поля "Варианты"
             var fieldType = await _context.FieldTypes.FirstOrDefaultAsync(ft => ft.field_type_id == model.FieldTypeId);
             if (fieldType?.name == "Варианты" && (model.Options == null || !model.Options.Any(x => !string.IsNullOrEmpty(x))))
             {
@@ -575,7 +558,6 @@ namespace CollectorHub.Controllers
                 _context.Add(field);
                 await _context.SaveChangesAsync();
 
-                // Если тип поля - "Варианты", создаем опции
                 if (fieldType?.name == "Варианты" && model.Options != null)
                 {
                     foreach (var option in model.Options.Where(o => !string.IsNullOrEmpty(o)))
@@ -593,7 +575,6 @@ namespace CollectorHub.Controllers
                 return RedirectToAction(nameof(Details), new { id = model.CollectionId });
             }
 
-            // Если модель невалидна, заново заполняем выпадающий список типов полей
             var fieldTypes = await _context.FieldTypes.ToListAsync();
             ViewData["field_type_id"] = new SelectList(fieldTypes, "field_type_id", "name", model.FieldTypeId);
 
@@ -605,7 +586,6 @@ namespace CollectorHub.Controllers
         {
             var userId = int.Parse(User.FindFirstValue("UserId"));
 
-            // Проверяем, принадлежит ли коллекция текущему пользователю
             var collection = await _context.Collections
                 .FirstOrDefaultAsync(c => c.collection_id == collectionId && c.user_id == userId);
 
@@ -614,7 +594,6 @@ namespace CollectorHub.Controllers
                 return NotFound();
             }
 
-            // Получаем поле
             var field = await _context.CollectionFields
                 .Include(f => f.field_type)
                 .FirstOrDefaultAsync(f => f.field_id == fieldId && f.collection_id == collectionId);
@@ -624,11 +603,9 @@ namespace CollectorHub.Controllers
                 return NotFound();
             }
 
-            // Получаем типы полей
             var fieldTypes = await _context.FieldTypes.ToListAsync();
             ViewData["field_type_id"] = new SelectList(fieldTypes, "field_type_id", "name", field.field_type_id);
 
-            // Получаем опции, если тип поля - "Варианты"
             var options = new List<string>();
             var optionIds = new List<int>();
             if (field.field_type.name == "Варианты")
@@ -663,7 +640,6 @@ namespace CollectorHub.Controllers
         {
             var userId = int.Parse(User.FindFirstValue("UserId"));
 
-            // Проверяем, принадлежит ли коллекция текущему пользователю
             var collection = await _context.Collections
                 .FirstOrDefaultAsync(c => c.collection_id == model.CollectionId && c.user_id == userId);
 
@@ -672,7 +648,6 @@ namespace CollectorHub.Controllers
                 return NotFound();
             }
 
-            // Получаем поле
             var field = await _context.CollectionFields
                 .Include(f => f.field_type)
                 .FirstOrDefaultAsync(f => f.field_id == model.FieldId && f.collection_id == model.CollectionId);
@@ -684,14 +659,11 @@ namespace CollectorHub.Controllers
 
             if (ModelState.IsValid)
             {
-                // Обновляем поле
                 field.name = model.Name;
                 field.is_required = model.IsRequired;
 
-                // Если тип поля изменился, удаляем все значения этого поля в предметах и опции, если применимо
                 if (field.field_type_id != model.FieldTypeId)
                 {
-                    // Удаляем значения в зависимости от текущего типа поля
                     switch (field.field_type.name)
                     {
                         case "Текст":
@@ -728,7 +700,6 @@ namespace CollectorHub.Controllers
                                 .ToListAsync();
                             _context.ItemValueOptions.RemoveRange(optionValues);
 
-                            // Удаляем опции поля
                             var options = await _context.FieldOptions
                                 .Where(o => o.field_id == field.field_id)
                                 .ToListAsync();
@@ -743,27 +714,22 @@ namespace CollectorHub.Controllers
                             break;
                     }
 
-                    // Обновляем тип поля
                     field.field_type_id = model.FieldTypeId;
                 }
 
                 _context.Update(field);
                 await _context.SaveChangesAsync();
 
-                // Обработка вариантов только если тип поля - "Варианты"
                 var newFieldType = await _context.FieldTypes.FirstOrDefaultAsync(ft => ft.field_type_id == model.FieldTypeId);
                 if (newFieldType != null && newFieldType.name == "Варианты" && model.Options != null)
                 {
-                    // Получаем существующие опции
                     var existingOptions = await _context.FieldOptions
                         .Where(o => o.field_id == field.field_id)
                         .ToDictionaryAsync(o => o.option_id, o => o.option_text);
 
-                    // Обработка удаляемых опций
                     var optionsToDelete = model.DeleteOptions?.Where(d => !string.IsNullOrEmpty(d)).ToList() ?? new List<string>();
                     var optionsToKeep = new List<int>();
 
-                    // Обновляем или удаляем существующие опции
                     for (int i = 0; i < model.OptionIds.Count && i < model.Options.Count; i++)
                     {
                         int optionId = model.OptionIds[i];
@@ -781,7 +747,6 @@ namespace CollectorHub.Controllers
                             }
                             else if (existingOptions.ContainsKey(optionId))
                             {
-                                // Обновляем существующий вариант
                                 var option = await _context.FieldOptions.FindAsync(optionId);
                                 if (option != null && option.option_text != optionText)
                                 {
@@ -792,7 +757,6 @@ namespace CollectorHub.Controllers
                             }
                             else if (optionId == 0)
                             {
-                                // Новый вариант
                                 var newOption = new FieldOption
                                 {
                                     field_id = field.field_id,
@@ -803,7 +767,6 @@ namespace CollectorHub.Controllers
                         }
                     }
 
-                    // Удаляем оставшиеся опции, которые не были обновлены или сохранены
                     var optionsToRemove = await _context.FieldOptions
                         .Where(o => o.field_id == field.field_id && !optionsToKeep.Contains(o.option_id))
                         .ToListAsync();
@@ -815,7 +778,6 @@ namespace CollectorHub.Controllers
                 return RedirectToAction(nameof(Details), new { id = model.CollectionId });
             }
 
-            // Если модель невалидна, заново заполняем выпадающий список типов полей
             var fieldTypes = await _context.FieldTypes.ToListAsync();
             ViewData["field_type_id"] = new SelectList(fieldTypes, "field_type_id", "name", model.FieldTypeId);
 
@@ -827,7 +789,6 @@ namespace CollectorHub.Controllers
         {
             var userId = int.Parse(User.FindFirstValue("UserId"));
 
-            // Проверяем, принадлежит ли коллекция текущему пользователю
             var collection = await _context.Collections
                 .FirstOrDefaultAsync(c => c.collection_id == collectionId && c.user_id == userId);
 
@@ -836,7 +797,6 @@ namespace CollectorHub.Controllers
                 return NotFound();
             }
 
-            // Получаем поле
             var field = await _context.CollectionFields
                 .Include(f => f.field_type)
                 .FirstOrDefaultAsync(f => f.field_id == fieldId && f.collection_id == collectionId);
@@ -865,7 +825,6 @@ namespace CollectorHub.Controllers
         {
             var userId = int.Parse(User.FindFirstValue("UserId"));
 
-            // Проверяем, принадлежит ли коллекция текущему пользователю
             var collection = await _context.Collections
                 .FirstOrDefaultAsync(c => c.collection_id == collectionId && c.user_id == userId);
 
@@ -874,7 +833,6 @@ namespace CollectorHub.Controllers
                 return NotFound();
             }
 
-            // Находим поле для удаления
             var field = await _context.CollectionFields
                 .Include(f => f.field_type)
                 .FirstOrDefaultAsync(f => f.field_id == fieldId && f.collection_id == collectionId);
@@ -884,7 +842,6 @@ namespace CollectorHub.Controllers
                 return NotFound();
             }
 
-            // Удаляем связанные значения в зависимости от типа поля
             if (field.field_type.name == "Текст")
             {
                 var textValues = await _context.ItemValueTexts
@@ -920,7 +877,6 @@ namespace CollectorHub.Controllers
                     .ToListAsync();
                 _context.ItemValueOptions.RemoveRange(optionValues);
 
-                // Удаляем опции поля
                 var fieldOptions = await _context.FieldOptions
                     .Where(fo => fo.field_id == fieldId)
                     .ToListAsync();
@@ -934,7 +890,6 @@ namespace CollectorHub.Controllers
                 _context.ItemValueImages.RemoveRange(imageValues);
             }
 
-            // Удаляем само поле
             _context.CollectionFields.Remove(field);
             await _context.SaveChangesAsync();
 
@@ -946,7 +901,6 @@ namespace CollectorHub.Controllers
         {
             var userId = int.Parse(User.FindFirstValue("UserId"));
 
-            // Проверяем, принадлежит ли коллекция текущему пользователю
             var collection = await _context.Collections
                 .FirstOrDefaultAsync(c => c.collection_id == collectionId && c.user_id == userId);
 
@@ -955,7 +909,6 @@ namespace CollectorHub.Controllers
                 return NotFound();
             }
 
-            // Получаем поле
             var field = await _context.CollectionFields
                 .Include(f => f.field_type)
                 .FirstOrDefaultAsync(f => f.field_id == fieldId && f.collection_id == collectionId);
@@ -982,7 +935,6 @@ namespace CollectorHub.Controllers
         {
             var userId = int.Parse(User.FindFirstValue("UserId"));
 
-            // Проверяем, принадлежит ли коллекция текущему пользователю
             var collection = await _context.Collections
                 .FirstOrDefaultAsync(c => c.collection_id == model.CollectionId && c.user_id == userId);
 
@@ -991,7 +943,6 @@ namespace CollectorHub.Controllers
                 return NotFound();
             }
 
-            // Получаем поле
             var field = await _context.CollectionFields
                 .Include(f => f.field_type)
                 .FirstOrDefaultAsync(f => f.field_id == model.FieldId && f.collection_id == model.CollectionId);

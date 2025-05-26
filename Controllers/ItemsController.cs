@@ -12,10 +12,12 @@ namespace CollectorHub.Controllers
     public class ItemsController : Controller
     {
         private readonly DBContext _context;
+        private readonly IWebHostEnvironment _environment; // !!! Добавили IWebHostEnvironment
 
-        public ItemsController(DBContext context)
+        public ItemsController(DBContext context, IWebHostEnvironment environment) // !!! Обновили конструктор
         {
             _context = context;
+            _environment = environment; // !!! Инициализировали _environment
         }
 
         // GET: Items/Index
@@ -28,7 +30,6 @@ namespace CollectorHub.Controllers
 
             var userId = int.Parse(User.FindFirstValue("UserId"));
 
-            // Проверяем, принадлежит ли коллекция текущему пользователю
             var collection = await _context.Collections
                 .Include(c => c.visibility)
                 .FirstOrDefaultAsync(c => c.collection_id == collectionId && c.user_id == userId);
@@ -38,7 +39,6 @@ namespace CollectorHub.Controllers
                 return NotFound();
             }
 
-            // Инициализируем фильтр, если он не был передан
             if (filter == null)
             {
                 filter = new ItemsFilterViewModel();
@@ -47,38 +47,29 @@ namespace CollectorHub.Controllers
             filter.CollectionId = collectionId.Value;
             filter.CollectionName = collection.name;
 
-            // Получаем поля коллекции для фильтрации
             filter.CollectionFields = await _context.CollectionFields
                 .Include(f => f.field_type)
                 .Where(f => f.collection_id == collectionId)
                 .ToListAsync();
 
-            // Получаем статусы для фильтрации
             filter.Statuses = await _context.ItemStatuses.ToListAsync();
 
-            // Базовый запрос для получения предметов
             var query = _context.Items
                 .Include(i => i.status)
                 .Where(i => i.collection_id == collectionId);
 
-            // Применяем фильтры
-
-            // Фильтр по поисковому запросу
             if (!string.IsNullOrEmpty(filter.SearchTerm))
             {
                 query = query.Where(i => i.name.Contains(filter.SearchTerm));
             }
 
-            // Фильтр по статусу
             if (filter.StatusId.HasValue)
             {
                 query = query.Where(i => i.status_id == filter.StatusId.Value);
             }
 
-            // Сохраняем общее количество предметов после фильтрации
             filter.TotalItems = await query.CountAsync();
 
-            // Применяем сортировку
             if (!string.IsNullOrEmpty(filter.SortBy))
             {
                 switch (filter.SortBy)
@@ -108,24 +99,19 @@ namespace CollectorHub.Controllers
             }
             else
             {
-                // По умолчанию сортируем по дате создания (новые сверху)
                 query = query.OrderByDescending(i => i.created_at);
             }
 
-            // Применяем пагинацию
             query = query.Skip((filter.Page - 1) * filter.PageSize).Take(filter.PageSize);
 
-            // Получаем предметы
             filter.Items = await query.ToListAsync();
 
             return View(filter);
         }
 
-        // POST: Items/Filter
         [HttpPost]
         public IActionResult Filter(int collectionId, ItemsFilterViewModel filter)
         {
-            // Перенаправляем на GET метод с параметрами фильтрации
             return RedirectToAction(nameof(Index), new
             {
                 collectionId = collectionId,
@@ -133,11 +119,10 @@ namespace CollectorHub.Controllers
                 statusId = filter.StatusId,
                 sortBy = filter.SortBy,
                 sortDescending = filter.SortDescending,
-                page = 1 // Сбрасываем страницу на первую при применении нового фильтра
+                page = 1
             });
         }
 
-        // ItemsController.cs - метод Details
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -157,13 +142,11 @@ namespace CollectorHub.Controllers
                 return NotFound();
             }
 
-            // Загружаем поля коллекции
             var fields = await _context.CollectionFields
                 .Include(f => f.field_type)
                 .Where(f => f.collection_id == item.collection_id)
                 .ToListAsync();
 
-            // Загружаем значения полей
             var textValues = await _context.ItemValueTexts
                 .Where(v => v.item_id == id)
                 .ToDictionaryAsync(v => v.field_id, v => v.value);
@@ -191,7 +174,6 @@ namespace CollectorHub.Controllers
                 .GroupBy(v => v.field_id)
                 .ToDictionaryAsync(g => g.Key, g => g.OrderBy(v => v.sort_order).ToList());
 
-            // Загружаем ранг в списке желаний, если предмет в списке желаний
             int? wishlistRank = null;
             if (item.status.code == "wishlist")
             {
@@ -215,13 +197,12 @@ namespace CollectorHub.Controllers
                 OptionValues = optionValues,
                 ImageValues = imageValues,
                 WishlistRank = wishlistRank,
-                CollectionId = item.collection_id // Заполняем свойство CollectionId
+                CollectionId = item.collection_id
             };
 
             return View(viewModel);
         }
 
-        // GET: Items/Create
         public async Task<IActionResult> Create(int? collectionId)
         {
             if (collectionId == null)
@@ -231,7 +212,6 @@ namespace CollectorHub.Controllers
 
             var userId = int.Parse(User.FindFirstValue("UserId"));
 
-            // Проверяем, принадлежит ли коллекция текущему пользователю
             var collection = await _context.Collections
                 .FirstOrDefaultAsync(c => c.collection_id == collectionId && c.user_id == userId);
 
@@ -240,13 +220,11 @@ namespace CollectorHub.Controllers
                 return NotFound();
             }
 
-            // Получаем поля коллекции
             var collectionFields = await _context.CollectionFields
                 .Include(f => f.field_type)
                 .Where(f => f.collection_id == collectionId)
                 .ToListAsync();
 
-            // Получаем опции для полей типа "option"
             var optionFields = collectionFields
                 .Where(f => f.field_type.name == "Варианты")
                 .Select(f => f.field_id)
@@ -257,14 +235,11 @@ namespace CollectorHub.Controllers
                 .GroupBy(o => o.field_id)
                 .ToDictionaryAsync(g => g.Key, g => g.ToList());
 
-            // Заполняем выпадающий список статусов
             ViewData["status_id"] = new SelectList(_context.ItemStatuses, "status_id", "name");
 
-            // Передаем ID статуса "wishlist" в ViewBag
             var wishlistStatus = await _context.ItemStatuses.FirstOrDefaultAsync(s => s.code == "wishlist");
             ViewBag.WishlistStatusId = wishlistStatus?.status_id;
 
-            // Создаем модель представления
             var viewModel = new CreateItemViewModel
             {
                 CollectionId = collectionId.Value,
@@ -276,14 +251,12 @@ namespace CollectorHub.Controllers
             return View(viewModel);
         }
 
-        // POST: Items/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateItemViewModel viewModel)
         {
             var userId = int.Parse(User.FindFirstValue("UserId"));
 
-            // Проверяем, принадлежит ли коллекция текущему пользователю
             var collection = await _context.Collections
                 .FirstOrDefaultAsync(c => c.collection_id == viewModel.CollectionId && c.user_id == userId);
 
@@ -292,7 +265,6 @@ namespace CollectorHub.Controllers
                 return NotFound();
             }
 
-            // Проверяем, если ранг указан, но статус не "wishlist"
             var status = await _context.ItemStatuses.FindAsync(viewModel.StatusId);
             if (viewModel.WishlistRank.HasValue && status?.code != "wishlist")
             {
@@ -303,7 +275,6 @@ namespace CollectorHub.Controllers
             {
                 try
                 {
-                    // Создаем новый предмет
                     var item = new Item
                     {
                         collection_id = viewModel.CollectionId,
@@ -315,7 +286,6 @@ namespace CollectorHub.Controllers
                     _context.Add(item);
                     await _context.SaveChangesAsync();
 
-                    // Если статус - wishlist, добавляем запись в WishlistItems
                     if (status?.code == "wishlist" && viewModel.WishlistRank.HasValue)
                     {
                         var wishlistItem = new WishlistItem
@@ -328,7 +298,6 @@ namespace CollectorHub.Controllers
                         await _context.SaveChangesAsync();
                     }
 
-                    // Сохраняем значения полей
                     await SaveFieldValues(item.item_id, viewModel.FieldValues);
 
                     return RedirectToAction(nameof(Details), new { id = item.item_id });
@@ -339,7 +308,6 @@ namespace CollectorHub.Controllers
                 }
             }
 
-            // Если модель невалидна, заново заполняем данные
             var collectionFields = await _context.CollectionFields
                 .Include(f => f.field_type)
                 .Where(f => f.collection_id == viewModel.CollectionId)
@@ -367,7 +335,6 @@ namespace CollectorHub.Controllers
             return View(viewModel);
         }
 
-        // GET: Items/Edit
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -377,7 +344,6 @@ namespace CollectorHub.Controllers
 
             var userId = int.Parse(User.FindFirstValue("UserId"));
 
-            // Получаем предмет и проверяем, принадлежит ли он коллекции текущего пользователя
             var item = await _context.Items
                 .Include(i => i.collection)
                 .Include(i => i.status)
@@ -388,13 +354,11 @@ namespace CollectorHub.Controllers
                 return NotFound();
             }
 
-            // Получаем поля коллекции
             var collectionFields = await _context.CollectionFields
                 .Include(f => f.field_type)
                 .Where(f => f.collection_id == item.collection_id)
                 .ToListAsync();
 
-            // Получаем опции для полей типа "option"
             var optionFields = collectionFields
                 .Where(f => f.field_type.name == "Варианты")
                 .Select(f => f.field_id)
@@ -405,7 +369,6 @@ namespace CollectorHub.Controllers
                 .GroupBy(o => o.field_id)
                 .ToDictionaryAsync(g => g.Key, g => g.ToList());
 
-            // Получаем значения полей предмета
             var textValues = await _context.ItemValueTexts
                 .Where(v => v.item_id == id)
                 .ToDictionaryAsync(v => v.field_id, v => v.value);
@@ -432,14 +395,11 @@ namespace CollectorHub.Controllers
                 .GroupBy(v => v.field_id)
                 .ToDictionaryAsync(g => g.Key, g => g.ToList());
 
-            // Заполняем выпадающий список статусов
             ViewData["status_id"] = new SelectList(_context.ItemStatuses, "status_id", "name", item.status_id);
 
-            // Передаем ID статуса "wishlist" в ViewBag
             var wishlistStatus = await _context.ItemStatuses.FirstOrDefaultAsync(s => s.code == "wishlist");
             ViewBag.WishlistStatusId = wishlistStatus?.status_id;
 
-            // Если предмет в списке желаний, получаем его ранг
             int? wishlistRank = null;
             if (item.status_id == wishlistStatus?.status_id)
             {
@@ -449,7 +409,6 @@ namespace CollectorHub.Controllers
                 wishlistRank = wishlistItem?.rank;
             }
 
-            // Создаем модель представления
             var viewModel = new EditItemViewModel
             {
                 ItemId = item.item_id,
@@ -463,7 +422,6 @@ namespace CollectorHub.Controllers
                 FieldValues = new Dictionary<int, string>()
             };
 
-            // Заполняем значения полей
             foreach (var field in collectionFields)
             {
                 switch (field.field_type.name)
@@ -489,7 +447,6 @@ namespace CollectorHub.Controllers
                             viewModel.FieldValues[field.field_id] = optionValue.ToString();
                         break;
                     case "Фото":
-                        // Изображения обрабатываются отдельно
                         break;
                 }
             }
@@ -497,7 +454,6 @@ namespace CollectorHub.Controllers
             return View(viewModel);
         }
 
-        // POST: Items/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, EditItemViewModel viewModel)
@@ -509,7 +465,6 @@ namespace CollectorHub.Controllers
 
             var userId = int.Parse(User.FindFirstValue("UserId"));
 
-            // Получаем предмет и проверяем, принадлежит ли он коллекции текущего пользователя
             var item = await _context.Items
                 .Include(i => i.collection)
                 .FirstOrDefaultAsync(i => i.item_id == id && i.collection.user_id == userId);
@@ -519,7 +474,6 @@ namespace CollectorHub.Controllers
                 return NotFound();
             }
 
-            // Проверяем, если ранг указан, но статус не "wishlist"
             var status = await _context.ItemStatuses.FindAsync(viewModel.StatusId);
             if (viewModel.WishlistRank.HasValue && status?.code != "wishlist")
             {
@@ -530,13 +484,11 @@ namespace CollectorHub.Controllers
             {
                 try
                 {
-                    // Обновляем предмет
                     item.name = viewModel.Name;
                     item.status_id = viewModel.StatusId;
 
                     _context.Update(item);
 
-                    // Обновляем ранг в списке желаний
                     if (status?.code == "wishlist")
                     {
                         var wishlistItem = await _context.WishlistItems
@@ -560,7 +512,6 @@ namespace CollectorHub.Controllers
                     }
                     else
                     {
-                        // Если статус не wishlist, удаляем запись из WishlistItems
                         var wishlistItem = await _context.WishlistItems
                             .FirstOrDefaultAsync(w => w.item_id == id);
 
@@ -572,7 +523,6 @@ namespace CollectorHub.Controllers
 
                     await _context.SaveChangesAsync();
 
-                    // Обновляем значения полей
                     await UpdateFieldValues(id, viewModel.FieldValues);
 
                     return RedirectToAction(nameof(Details), new { id = id });
@@ -590,7 +540,6 @@ namespace CollectorHub.Controllers
                 }
             }
 
-            // Если модель невалидна, заново заполняем данные
             var collectionFields = await _context.CollectionFields
                 .Include(f => f.field_type)
                 .Where(f => f.collection_id == item.collection_id)
@@ -618,7 +567,6 @@ namespace CollectorHub.Controllers
             return View(viewModel);
         }
 
-        // GET: Items/Delete
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -628,7 +576,6 @@ namespace CollectorHub.Controllers
 
             var userId = int.Parse(User.FindFirstValue("UserId"));
 
-            // Получаем предмет и проверяем, принадлежит ли он коллекции текущего пользователя
             var item = await _context.Items
                 .Include(i => i.collection)
                 .Include(i => i.status)
@@ -642,14 +589,12 @@ namespace CollectorHub.Controllers
             return View(item);
         }
 
-        // POST: Items/Delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var userId = int.Parse(User.FindFirstValue("UserId"));
 
-            // Получаем предмет и проверяем, принадлежит ли он коллекции текущего пользователя
             var item = await _context.Items
                 .Include(i => i.collection)
                 .FirstOrDefaultAsync(i => i.item_id == id && i.collection.user_id == userId);
@@ -663,38 +608,52 @@ namespace CollectorHub.Controllers
             var textValues = await _context.ItemValueTexts
                 .Where(v => v.item_id == id)
                 .ToListAsync();
+            _context.ItemValueTexts.RemoveRange(textValues);
 
             var numberValues = await _context.ItemValueNumbers
                 .Where(v => v.item_id == id)
                 .ToListAsync();
+            _context.ItemValueNumbers.RemoveRange(numberValues);
 
             var dateValues = await _context.ItemValueDates
                 .Where(v => v.item_id == id)
                 .ToListAsync();
+            _context.ItemValueDates.RemoveRange(dateValues);
 
             var boolValues = await _context.ItemValueBools
                 .Where(v => v.item_id == id)
                 .ToListAsync();
+            _context.ItemValueBools.RemoveRange(boolValues);
 
             var optionValues = await _context.ItemValueOptions
                 .Where(v => v.item_id == id)
                 .ToListAsync();
+            _context.ItemValueOptions.RemoveRange(optionValues);
 
+            // Удаляем изображения и их файлы
             var imageValues = await _context.ItemValueImages
                 .Where(v => v.item_id == id)
                 .ToListAsync();
-
-            _context.ItemValueTexts.RemoveRange(textValues);
-            _context.ItemValueNumbers.RemoveRange(numberValues);
-            _context.ItemValueDates.RemoveRange(dateValues);
-            _context.ItemValueBools.RemoveRange(boolValues);
-            _context.ItemValueOptions.RemoveRange(optionValues);
-            _context.ItemValueImages.RemoveRange(imageValues);
+            foreach (var image in imageValues)
+            {
+                try
+                {
+                    var filePath = Path.Combine(_environment.WebRootPath, image.image_url.TrimStart('/'));
+                    if (System.IO.File.Exists(filePath))
+                    {
+                        System.IO.File.Delete(filePath);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Ошибка при удалении файла {image.image_url}: {ex.Message}");
+                }
+            }
+            _context.ItemValueImages.RemoveRange(imageValues); // !!! Удаляем записи из БД после удаления файлов
 
             // Удаляем запись из WishlistItems, если она есть
             var wishlistItem = await _context.WishlistItems
                 .FirstOrDefaultAsync(w => w.item_id == id);
-
             if (wishlistItem != null)
             {
                 _context.WishlistItems.Remove(wishlistItem);
@@ -708,7 +667,6 @@ namespace CollectorHub.Controllers
             return RedirectToAction(nameof(Index), new { collectionId = item.collection_id });
         }
 
-        // Метод для сохранения значений полей
         private async Task SaveFieldValues(int itemId, Dictionary<int, string> fieldValues)
         {
             if (fieldValues == null)
@@ -719,7 +677,6 @@ namespace CollectorHub.Controllers
                 var fieldId = fieldValue.Key;
                 var value = fieldValue.Value;
 
-                // Получаем тип поля
                 var field = await _context.CollectionFields
                     .Include(f => f.field_type)
                     .FirstOrDefaultAsync(f => f.field_id == fieldId);
@@ -727,7 +684,6 @@ namespace CollectorHub.Controllers
                 if (field == null)
                     continue;
 
-                // Сохраняем значение в зависимости от типа поля
                 switch (field.field_type.name)
                 {
                     case "Текст":
@@ -791,7 +747,6 @@ namespace CollectorHub.Controllers
                         break;
 
                     case "Фото":
-                        // Изображения обрабатываются отдельно
                         break;
                 }
             }
@@ -799,29 +754,23 @@ namespace CollectorHub.Controllers
             await _context.SaveChangesAsync();
         }
 
-        // Метод для обновления значений полей
         private async Task UpdateFieldValues(int itemId, Dictionary<int, string> fieldValues)
         {
             if (fieldValues == null)
                 return;
 
-            // Удаляем существующие значения
             var textValues = await _context.ItemValueTexts
                 .Where(v => v.item_id == itemId)
                 .ToListAsync();
-
             var numberValues = await _context.ItemValueNumbers
                 .Where(v => v.item_id == itemId)
                 .ToListAsync();
-
             var dateValues = await _context.ItemValueDates
                 .Where(v => v.item_id == itemId)
                 .ToListAsync();
-
             var boolValues = await _context.ItemValueBools
                 .Where(v => v.item_id == itemId)
                 .ToListAsync();
-
             var optionValues = await _context.ItemValueOptions
                 .Where(v => v.item_id == itemId)
                 .ToListAsync();
@@ -834,7 +783,6 @@ namespace CollectorHub.Controllers
 
             await _context.SaveChangesAsync();
 
-            // Сохраняем новые значения
             await SaveFieldValues(itemId, fieldValues);
         }
 

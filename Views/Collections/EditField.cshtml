@@ -58,7 +58,7 @@
 
             <div class="form-group mb-3">
                 <input type="submit" value="Сохранить" class="btn btn-primary" />
-                <a asp-action="Details" asp-route-id="@Model.CollectionId" class="btn btn-secondary">Отмена</a>
+                <button type="button" onclick="window.history.back()" class="btn btn-secondary">Отмена</button>
             </div>
         </form>
     </div>
