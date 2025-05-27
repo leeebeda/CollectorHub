@@ -139,7 +139,7 @@
                             foreach (var field in fields)
                             {
                                 <tr>
-                                    <td>@field.name@Html.Raw(field.is_required ? "<span style=\"color: red;\">*</span>" : "")</td> <!-- !!! Использовал Html.Raw для рендеринга HTML -->
+                                    <td>@field.name@Html.Raw(field.is_required ? "<span style=\"color: red;\">*</span>" : "")</td>
                                     <td>@field.field_type.name</td>
                                     <td>
                                         <div class="btn-group">
@@ -202,11 +202,11 @@
                 @if (Model.Items != null && Model.Items.Count > 0)
                 {
                     <div class="row row-cols-md-4 row-cols-lg-4 item-list">
-                        @foreach (var item in Model.Items.Take(4))
+                        <!-- !!! Убрали Take(4), чтобы показывать все предметы -->
+                        @foreach (var item in Model.Items)
                         {
                             <div class="col mb-3 item-card" data-status="@item.status.code">
                                 <div class="card position-relative">
-                                    <!-- !!! Добавил position-relative для позиционирования кнопки -->
                                     <div class="card-body">
                                         <h6 class="card-title">
                                             <a asp-controller="Items" asp-action="Details" asp-route-id="@item.item_id">@item.name</a>
@@ -220,14 +220,12 @@
                                                 @item.status.name
                                             </span>
                                         </p>
-                                        <!-- !!! Переместил кнопку "Редактировать" в правый верхний угол -->
                                         <div class="action-buttons">
                                             <a asp-controller="Items" asp-action="Edit" asp-route-id="@item.item_id" class="btn btn-sm btn-outline-primary">
                                                 <i class="bi bi-pencil"></i>
                                             </a>
                                         </div>
                                     </div>
-                                    <!-- !!! Убрал card-footer -->
                                 </div>
                             </div>
                         }
@@ -274,17 +272,16 @@
                 });
             });
 
-            // !!! Обновили скрипт для множественного выбора статусов
+            // Фильтры статусов остаются как есть, так как ты уже используешь JS
             const statusFilters = document.querySelectorAll('.status-filter-icon');
             const itemCards = document.querySelectorAll('.item-card');
-            let activeStatuses = []; // Массив активных статусов
+            let activeStatuses = [];
 
             statusFilters.forEach(filter => {
                 filter.addEventListener('click', function (e) {
                     e.preventDefault();
                     const status = this.getAttribute('data-status');
 
-                    // Переключение статуса
                     if (activeStatuses.includes(status)) {
                         activeStatuses = activeStatuses.filter(s => s !== status);
                         this.classList.remove('active');
@@ -293,7 +290,6 @@
                         this.classList.add('active');
                     }
 
-                    // Фильтрация карточек
                     itemCards.forEach(card => {
                         const cardStatus = card.getAttribute('data-status');
                         if (activeStatuses.length === 0 || activeStatuses.includes(cardStatus)) {

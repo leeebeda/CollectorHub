@@ -25,7 +25,7 @@
 
                     <div class="d-flex justify-content-between mt-3">
                         <button type="submit" class="btn btn-danger">Удалить</button>
-                        <a asp-action="Details" asp-route-id="@Model.CollectionId" class="btn btn-secondary">Отмена</a>
+                        <button type="button" onclick="window.history.back()" class="btn btn-secondary">Отмена</button>
                     </div>
                 </form>
             </div>

@@ -24,7 +24,8 @@
 
             <div class="form-group mb-3">
                 <label asp-for="StatusId" class="control-label">Статус</label>
-                <select asp-for="StatusId" class="form-control" asp-items="ViewBag.status_id" required>
+                <!-- !!! Добавили id для select -->
+                <select asp-for="StatusId" class="form-control" asp-items="ViewBag.status_id" required id="statusSelect">
                     <option value="">-- Выберите статус --</option>
                 </select>
                 <span asp-validation-for="StatusId" class="text-danger"></span>
@@ -33,19 +34,14 @@
                 </small>
             </div>
 
-            <div class="form-group mb-3">
+            <!-- !!! Добавили id и убрали disabled -->
+            <div class="form-group mb-3" id="wishlistRankField" style="display: @(Model.StatusId == (ViewBag.WishlistStatusId as int?) ? "block" : "none");">
                 <label asp-for="WishlistRank" class="control-label">Ранг в списке желаний</label>
-                @{
-                    var isWishlist = Model.StatusId == (ViewBag.WishlistStatusId as int?);
-                    var disabledAttr = isWishlist ? null : "disabled";
-                }
-
                 <input asp-for="WishlistRank"
                        class="form-control"
                        type="number"
                        min="1"
-                       max="10"
-                       disabled="@disabledAttr" />
+                       max="10" />
                 <span asp-validation-for="WishlistRank" class="text-danger"></span>
                 <small class="form-text text-muted">
                     Ранг определяет приоритет предмета в списке желаний (1 - наивысший приоритет, 10 - низший). Доступно только для статуса "Вишлист".
@@ -139,7 +135,6 @@
 
             <div class="form-group mt-4">
                 <input type="submit" value="Сохранить" class="btn btn-primary" />
-                <!-- !!! Заменили ссылку на кнопку с динамическим возвратом -->
                 <button type="button" onclick="window.history.back()" class="btn btn-secondary">Назад</button>
             </div>
         </form>
@@ -162,4 +157,26 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <!-- !!! Добавили скрипт для динамического отображения поля -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const statusSelect = document.getElementById('statusSelect');
+            const wishlistRankField = document.getElementById('wishlistRankField');
+            const wishlistStatusId = @((ViewBag.WishlistStatusId as int?).ToString() ?? "0");
+
+            function toggleWishlistRankField() {
+                if (statusSelect.value == wishlistStatusId) {
+                    wishlistRankField.style.display = 'block';
+                } else {
+                    wishlistRankField.style.display = 'none';
+                }
+            }
+
+            // Первоначальная проверка
+            toggleWishlistRankField();
+
+            // Слушаем изменения
+            statusSelect.addEventListener('change', toggleWishlistRankField);
+        });
+    </script>
 }

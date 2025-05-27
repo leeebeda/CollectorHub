@@ -49,5 +49,5 @@
 <form asp-action="Delete">
     <input type="hidden" asp-for="collection_id" />
     <input type="submit" value="Удалить" class="btn btn-danger" />
-    <a asp-action="Index" class="btn btn-secondary">Отмена</a>
+    <button type="button" onclick="window.history.back()" class="btn btn-secondary">Отмена</button>
 </form>

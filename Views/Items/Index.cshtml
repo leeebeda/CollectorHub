@@ -8,7 +8,7 @@
     <h1>Предметы коллекции "@Model.CollectionName"</h1>
     <div>
         <a asp-action="Create" asp-route-collectionId="@Model.CollectionId" class="btn btn-primary">Добавить предмет</a>
-        <button type="button" onclick="window.history.back()" class="btn btn-secondary">Назад</button>
+        <a asp-controller="Collections" asp-action="Details" asp-route-id="@Model.CollectionId" class="btn btn-secondary">Назад к коллекции</a>
     </div>
 </div>
 
@@ -39,8 +39,9 @@
                     <label for="SortBy" class="form-label">Сортировка</label>
                     <div class="input-group">
                         <select id="SortBy" name="SortBy" class="form-control">
+                            <option value="date" selected="@(Model.SortBy == "date")">По дате добавления</option>
                             <option value="name" selected="@(Model.SortBy == "name")">По названию</option>
-                            <option value="status" selected="@(Model.SortBy == "status")">По статусу</option> <!-- !!! Убрали сортировку по дате -->
+                            <option value="status" selected="@(Model.SortBy == "status")">По статусу</option>
                         </select>
                         <div class="input-group-append">
                             <select name="SortDescending" class="form-control">
@@ -83,14 +84,13 @@ else
                     <div class="card-body">
                         <h5 class="card-title">@item.name</h5>
                         <p class="card-text">
-                            <span class="status-icon status-@item.status.code">
-                                <i class="bi @(item.status.code == "available" ? "bi-check-circle-fill" :
-                                              item.status.code == "delivery" ? "bi-truck" :
-                                              item.status.code == "pre-order" ? "bi-bag" :
-                                              "bi-gift")"></i>
+                            <span class="badge @(item.status.code == "available" ? "bg-success" :
+                                               item.status.code == "delivery" ? "bg-info" :
+                                               item.status.code == "pre-order" ? "bg-warning" :
+                                               "bg-secondary")">
                                 @item.status.name
                             </span>
-                            <!-- !!! Убрали отображение даты -->
+                            <small class="text-muted d-block mt-2">Добавлен: @String.Format("{0:dd.MM.yyyy}", item.created_at)</small>
                         </p>
                     </div>
                     <div class="card-footer">
